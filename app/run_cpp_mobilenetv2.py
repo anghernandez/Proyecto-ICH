@@ -1,12 +1,35 @@
 import sys
+import time
 from pathlib import Path
 
 import torch
 from PIL import Image
+from torchvision import transforms as T
 from torchvision.models import (
     mobilenet_v2,
     MobileNet_V2_Weights,
 )
+
+
+# ============================================================
+# Preprocesamiento con resolución configurable
+#
+# weights.transforms() fuerza siempre 224x224 (resize 256 +
+# center crop 224). Para poder variar la forma de entrada
+# armamos manualmente el mismo pipeline, pero con el tamaño
+# que se pida.
+# ============================================================
+
+def build_preprocess(resolution: int):
+
+    return T.Compose([
+        T.Resize((resolution, resolution)),
+        T.ToTensor(),
+        T.Normalize(
+            mean=[0.485, 0.456, 0.406],
+            std=[0.229, 0.224, 0.225],
+        ),
+    ])
 
 
 # ============================================================
@@ -64,26 +87,32 @@ def main() -> None:
     # Imagen de entrada
     # ========================================================
 
-    if len(sys.argv) != 2:
+    if len(sys.argv) not in (2, 3):
 
         print(
             "\nUso:"
-            "\npython3 python/apps/run_cpp_mobilenetv2.py "
-            "<imagen>"
+            "\npython3 app/run_cpp_mobilenetv2.py "
+            "<imagen> [resolucion]"
         )
 
         raise SystemExit(1)
 
     image_path = sys.argv[1]
 
+    resolution = (
+        int(sys.argv[2])
+        if len(sys.argv) == 3
+        else 224
+    )
+
     image = Image.open(
         image_path
     ).convert("RGB")
 
-    # Preprocesamiento oficial correspondiente
-    # a los pesos IMAGENET1K_V1.
+    # Preprocesamiento con la resolución pedida.
+    # (por defecto 224, igual a weights.transforms())
 
-    preprocess = weights.transforms()
+    preprocess = build_preprocess(resolution)
 
     input_tensor = preprocess(
         image
@@ -116,11 +145,24 @@ def main() -> None:
         "Ejecutando MobileNetV2 C++..."
     )
 
+    start_time = time.perf_counter()
+
     with torch.inference_mode():
 
         cpp_output = cpp_model(
             input_tensor
         )
+
+    elapsed_ms = (
+        (time.perf_counter() - start_time)
+        * 1000.0
+    )
+
+    print(
+        f"Tiempo inferencia C++: "
+        f"{elapsed_ms:.2f} ms "
+        f"(resolucion {resolution}x{resolution})"
+    )
 
     # ========================================================
     # Comparación numérica

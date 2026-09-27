@@ -27,6 +27,16 @@ INCLUDES := $(shell $(PYTHON) -m pybind11 --includes) -Ikernels
 
 IMAGE ?= test_images/imagen.jpeg
 
+# PROFILE=1 activa la instrumentacion std::chrono (ScopedTimer).
+# Por defecto (PROFILE=0) el binario queda igual que si nunca
+# se hubiera instrumentado -- esto es lo que permite comparar
+# el overhead de medir (ver PERFILADO.md, paso 4).
+PROFILE ?= 0
+
+ifeq ($(PROFILE),1)
+CXXFLAGS += -DPROFILE_KERNELS
+endif
+
 
 # ------------------------------------------------------------
 # Comandos principales
@@ -83,3 +93,6 @@ help:
 	@echo ""
 	@echo "Para utilizar otra imagen:"
 	@echo "  make run IMAGE=ruta/a/imagen.jpg"
+	@echo ""
+	@echo "Para compilar con instrumentacion std::chrono activa:"
+	@echo "  make build PROFILE=1"

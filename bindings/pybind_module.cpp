@@ -1,5 +1,6 @@
 #include <pybind11/numpy.h>
 #include <pybind11/pybind11.h>
+#include <pybind11/stl.h>
 
 //#include "ReLU.hpp"
 //#include "Tanh.hpp"
@@ -12,6 +13,7 @@
 #include "GlobalAvgPool2d.hpp"
 #include "LayerAdd.hpp"
 #include "ReLU6.hpp"
+#include "Profiler.hpp"
 
 namespace py = pybind11;
 
@@ -21,6 +23,30 @@ using FloatArray = py::array_t<
     float,
     py::array::c_style
 >;
+
+
+// ------------------------------------------------------------
+// Helper para armar la forma del tensor como texto,
+// ej. "1x32x112x112"
+// ------------------------------------------------------------
+
+std::string shape_to_string(
+    const std::vector<py::ssize_t>& shape
+)
+{
+    std::string result;
+
+    for (std::size_t index = 0; index < shape.size(); index++)
+    {
+        if (index > 0) {
+            result += "x";
+        }
+
+        result += std::to_string(shape[index]);
+    }
+
+    return result;
+}
 
 
 
@@ -93,17 +119,25 @@ py::array_t<float> linear_forward_binding(
             output_info.ptr
         );
 
+    const std::string shape_str = shape_to_string(
+        {batch_size, in_features}
+    );
+
     if (bias.is_none()) {
-        linear_forward(
-            input_pointer,
-            weight_pointer,
-            nullptr,
-            output_pointer,
-            static_cast<int>(batch_size),
-            static_cast<int>(in_features),
-            static_cast<int>(out_features),
-            false
-        );
+        {
+            SCOPED_TIMER("linear", shape_str);
+
+            linear_forward(
+                input_pointer,
+                weight_pointer,
+                nullptr,
+                output_pointer,
+                static_cast<int>(batch_size),
+                static_cast<int>(in_features),
+                static_cast<int>(out_features),
+                false
+            );
+        }
 
         return output;
     }
@@ -135,16 +169,20 @@ py::array_t<float> linear_forward_binding(
             bias_info.ptr
         );
 
-    linear_forward(
-        input_pointer,
-        weight_pointer,
-        bias_pointer,
-        output_pointer,
-        static_cast<int>(batch_size),
-        static_cast<int>(in_features),
-        static_cast<int>(out_features),
-        true
-    );
+    {
+        SCOPED_TIMER("linear", shape_str);
+
+        linear_forward(
+            input_pointer,
+            weight_pointer,
+            bias_pointer,
+            output_pointer,
+            static_cast<int>(batch_size),
+            static_cast<int>(in_features),
+            static_cast<int>(out_features),
+            true
+        );
+    }
 
     return output;
 }
@@ -258,27 +296,35 @@ py::array_t<float> conv2d_forward_binding(
             output_info.ptr
         );
 
+    const std::string shape_str = shape_to_string(
+        {batch_size, input_channels, input_height, input_width}
+    );
+
     if (bias.is_none()) {
-        conv2d_forward(
-            input_pointer,
-            weight_pointer,
-            nullptr,
-            output_pointer,
-            static_cast<int>(batch_size),
-            static_cast<int>(input_channels),
-            static_cast<int>(input_height),
-            static_cast<int>(input_width),
-            static_cast<int>(output_channels),
-            output_height,
-            output_width,
-            static_cast<int>(kernel_height),
-            static_cast<int>(kernel_width),
-            stride_height,
-            stride_width,
-            padding_height,
-            padding_width,
-            false
-        );
+        {
+            SCOPED_TIMER("conv2d", shape_str);
+
+            conv2d_forward(
+                input_pointer,
+                weight_pointer,
+                nullptr,
+                output_pointer,
+                static_cast<int>(batch_size),
+                static_cast<int>(input_channels),
+                static_cast<int>(input_height),
+                static_cast<int>(input_width),
+                static_cast<int>(output_channels),
+                output_height,
+                output_width,
+                static_cast<int>(kernel_height),
+                static_cast<int>(kernel_width),
+                stride_height,
+                stride_width,
+                padding_height,
+                padding_width,
+                false
+            );
+        }
 
         return output;
     }
@@ -311,26 +357,30 @@ py::array_t<float> conv2d_forward_binding(
             bias_info.ptr
         );
 
-    conv2d_forward(
-        input_pointer,
-        weight_pointer,
-        bias_pointer,
-        output_pointer,
-        static_cast<int>(batch_size),
-        static_cast<int>(input_channels),
-        static_cast<int>(input_height),
-        static_cast<int>(input_width),
-        static_cast<int>(output_channels),
-        output_height,
-        output_width,
-        static_cast<int>(kernel_height),
-        static_cast<int>(kernel_width),
-        stride_height,
-        stride_width,
-        padding_height,
-        padding_width,
-        true
-    );
+    {
+        SCOPED_TIMER("conv2d", shape_str);
+
+        conv2d_forward(
+            input_pointer,
+            weight_pointer,
+            bias_pointer,
+            output_pointer,
+            static_cast<int>(batch_size),
+            static_cast<int>(input_channels),
+            static_cast<int>(input_height),
+            static_cast<int>(input_width),
+            static_cast<int>(output_channels),
+            output_height,
+            output_width,
+            static_cast<int>(kernel_height),
+            static_cast<int>(kernel_width),
+            stride_height,
+            stride_width,
+            padding_height,
+            padding_width,
+            true
+        );
+    }
 
     return output;
 }
@@ -415,19 +465,27 @@ py::array_t<float> pointwise_conv2d_forward_binding(
             output_info.ptr
         );
 
+    const std::string shape_str = shape_to_string(
+        {batch_size, input_channels, input_height, input_width}
+    );
+
     if (bias.is_none()) {
-        pointwise_conv2d_forward(
-            input_pointer,
-            weight_pointer,
-            nullptr,
-            output_pointer,
-            static_cast<int>(batch_size),
-            static_cast<int>(input_channels),
-            static_cast<int>(input_height),
-            static_cast<int>(input_width),
-            static_cast<int>(output_channels),
-            false
-        );
+        {
+            SCOPED_TIMER("pointwise_conv", shape_str);
+
+            pointwise_conv2d_forward(
+                input_pointer,
+                weight_pointer,
+                nullptr,
+                output_pointer,
+                static_cast<int>(batch_size),
+                static_cast<int>(input_channels),
+                static_cast<int>(input_height),
+                static_cast<int>(input_width),
+                static_cast<int>(output_channels),
+                false
+            );
+        }
 
         return output;
     }
@@ -459,18 +517,22 @@ py::array_t<float> pointwise_conv2d_forward_binding(
             bias_info.ptr
         );
 
-    pointwise_conv2d_forward(
-        input_pointer,
-        weight_pointer,
-        bias_pointer,
-        output_pointer,
-        static_cast<int>(batch_size),
-        static_cast<int>(input_channels),
-        static_cast<int>(input_height),
-        static_cast<int>(input_width),
-        static_cast<int>(output_channels),
-        true
-    );
+    {
+        SCOPED_TIMER("pointwise_conv", shape_str);
+
+        pointwise_conv2d_forward(
+            input_pointer,
+            weight_pointer,
+            bias_pointer,
+            output_pointer,
+            static_cast<int>(batch_size),
+            static_cast<int>(input_channels),
+            static_cast<int>(input_height),
+            static_cast<int>(input_width),
+            static_cast<int>(output_channels),
+            true
+        );
+    }
 
     return output;
 }
@@ -574,26 +636,34 @@ py::array_t<float> depthwise_conv2d_forward_binding(
             output_info.ptr
         );
 
+    const std::string shape_str = shape_to_string(
+        {batch_size, channels, input_height, input_width}
+    );
+
     if (bias.is_none()) {
-        depthwise_conv2d_forward(
-            input_pointer,
-            weight_pointer,
-            nullptr,
-            output_pointer,
-            static_cast<int>(batch_size),
-            static_cast<int>(channels),
-            static_cast<int>(input_height),
-            static_cast<int>(input_width),
-            output_height,
-            output_width,
-            static_cast<int>(kernel_height),
-            static_cast<int>(kernel_width),
-            stride_height,
-            stride_width,
-            padding_height,
-            padding_width,
-            false
-        );
+        {
+            SCOPED_TIMER("depthwise_conv", shape_str);
+
+            depthwise_conv2d_forward(
+                input_pointer,
+                weight_pointer,
+                nullptr,
+                output_pointer,
+                static_cast<int>(batch_size),
+                static_cast<int>(channels),
+                static_cast<int>(input_height),
+                static_cast<int>(input_width),
+                output_height,
+                output_width,
+                static_cast<int>(kernel_height),
+                static_cast<int>(kernel_width),
+                stride_height,
+                stride_width,
+                padding_height,
+                padding_width,
+                false
+            );
+        }
 
         return output;
     }
@@ -625,25 +695,29 @@ py::array_t<float> depthwise_conv2d_forward_binding(
             bias_info.ptr
         );
 
-    depthwise_conv2d_forward(
-        input_pointer,
-        weight_pointer,
-        bias_pointer,
-        output_pointer,
-        static_cast<int>(batch_size),
-        static_cast<int>(channels),
-        static_cast<int>(input_height),
-        static_cast<int>(input_width),
-        output_height,
-        output_width,
-        static_cast<int>(kernel_height),
-        static_cast<int>(kernel_width),
-        stride_height,
-        stride_width,
-        padding_height,
-        padding_width,
-        true
-    );
+    {
+        SCOPED_TIMER("depthwise_conv", shape_str);
+
+        depthwise_conv2d_forward(
+            input_pointer,
+            weight_pointer,
+            bias_pointer,
+            output_pointer,
+            static_cast<int>(batch_size),
+            static_cast<int>(channels),
+            static_cast<int>(input_height),
+            static_cast<int>(input_width),
+            output_height,
+            output_width,
+            static_cast<int>(kernel_height),
+            static_cast<int>(kernel_width),
+            stride_height,
+            stride_width,
+            padding_height,
+            padding_width,
+            true
+        );
+    }
 
     return output;
 }
@@ -789,21 +863,29 @@ py::array_t<float> batchnorm2d_forward_binding(
     const bool use_bias =
         affine && !bias.is_none();
 
-    batchnorm2d_forward(
-        input_pointer,
-        weight_pointer,
-        bias_pointer,
-        mean_pointer,
-        var_pointer,
-        output_pointer,
-        static_cast<int>(batch_size),
-        static_cast<int>(channels),
-        static_cast<int>(input_height),
-        static_cast<int>(input_width),
-        eps,
-        affine,
-        use_bias
-    );
+    {
+        const std::string shape_str = shape_to_string(
+            {batch_size, channels, input_height, input_width}
+        );
+
+        SCOPED_TIMER("batchnorm", shape_str);
+
+        batchnorm2d_forward(
+            input_pointer,
+            weight_pointer,
+            bias_pointer,
+            mean_pointer,
+            var_pointer,
+            output_pointer,
+            static_cast<int>(batch_size),
+            static_cast<int>(channels),
+            static_cast<int>(input_height),
+            static_cast<int>(input_width),
+            eps,
+            affine,
+            use_bias
+        );
+    }
 
     return output;
 }
@@ -857,14 +939,22 @@ py::array_t<float> global_avgpool2d_forward_binding(
             output_info.ptr
         );
 
-    global_avgpool2d_forward(
-        input_pointer,
-        output_pointer,
-        static_cast<int>(batch_size),
-        static_cast<int>(channels),
-        static_cast<int>(input_height),
-        static_cast<int>(input_width)
-    );
+    {
+        const std::string shape_str = shape_to_string(
+            {batch_size, channels, input_height, input_width}
+        );
+
+        SCOPED_TIMER("pooling", shape_str);
+
+        global_avgpool2d_forward(
+            input_pointer,
+            output_pointer,
+            static_cast<int>(batch_size),
+            static_cast<int>(channels),
+            static_cast<int>(input_height),
+            static_cast<int>(input_width)
+        );
+    }
 
     return output;
 }
@@ -930,13 +1020,24 @@ py::array_t<float> layer_add_forward_binding(
             output_info.ptr
         );
 
-    layer_add_forward(
-        input1_pointer,
-        input2_pointer,
-        output_pointer,
-        static_cast<int>(input1_info.size),
-        alpha
-    );
+    {
+        const std::string shape_str = shape_to_string(
+            std::vector<py::ssize_t>(
+                input1_info.shape.begin(),
+                input1_info.shape.end()
+            )
+        );
+
+        SCOPED_TIMER("layer_add", shape_str);
+
+        layer_add_forward(
+            input1_pointer,
+            input2_pointer,
+            output_pointer,
+            static_cast<int>(input1_info.size),
+            alpha
+        );
+    }
 
     return output;
 }
@@ -972,11 +1073,22 @@ py::array_t<float> relu6_forward_binding(
             output_info.ptr
         );
 
-    relu6_forward(
-        input_pointer,
-        output_pointer,
-        static_cast<int>(input_info.size)
-    );
+    {
+        const std::string shape_str = shape_to_string(
+            std::vector<py::ssize_t>(
+                input_info.shape.begin(),
+                input_info.shape.end()
+            )
+        );
+
+        SCOPED_TIMER("activacion", shape_str);
+
+        relu6_forward(
+            input_pointer,
+            output_pointer,
+            static_cast<int>(input_info.size)
+        );
+    }
 
     return output;
 }
@@ -1070,6 +1182,41 @@ PYBIND11_MODULE(cpp_kernels, module)
         &relu6_forward_binding,
         py::arg("input"),
         "Ejecuta ReLU6 sobre un arreglo NumPy float32"
+    );
+
+    // ------------------------------------------------------
+    // Profiler (std::chrono)
+    // ------------------------------------------------------
+
+    module.def(
+        "get_and_clear_profile_records",
+        []() {
+            py::list result;
+
+            for (const auto& record : profiler_records()) {
+                py::dict entry;
+
+                entry["etapa"] = record.etapa;
+                entry["forma_tensor"] = record.forma_tensor;
+                entry["tiempo_ms"] = record.tiempo_ms;
+
+                result.append(entry);
+            }
+
+            profiler_records().clear();
+
+            return result;
+        },
+        "Devuelve todos los registros de tiempo acumulados "
+        "desde la última llamada y limpia el buffer"
+    );
+
+    module.def(
+        "clear_profile_records",
+        []() {
+            profiler_records().clear();
+        },
+        "Limpia el buffer de registros de tiempo sin leerlos"
     );
 
 }
