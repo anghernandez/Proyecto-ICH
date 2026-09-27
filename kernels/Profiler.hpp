@@ -3,7 +3,7 @@
 #include <chrono>
 #include <string>
 #include <vector>
-
+#include <utility>
 // ============================================================
 // Profiler minimalista basado en std::chrono.
 //
@@ -28,6 +28,13 @@ inline std::vector<ProfileRecord>& profiler_records()
     return records;
 }
 
+
+inline bool& profiler_enabled()
+{
+    static bool enabled = true;
+    return enabled;
+}
+
 // RAII: mide desde que se construye hasta que se destruye
 // (o sea, hasta que termina el bloque { } donde se declaró).
 class ScopedTimer
@@ -39,14 +46,22 @@ public:
     )
         : etapa_(std::move(etapa)),
           forma_tensor_(std::move(forma_tensor)),
-          start_(std::chrono::high_resolution_clock::now())
+          active_(profiler_enabled()),
+          start_(
+              active_
+                  ? std::chrono::steady_clock::now()
+                  : std::chrono::steady_clock::time_point{}
+          )
     {
     }
 
     ~ScopedTimer()
     {
-        const auto end =
-            std::chrono::high_resolution_clock::now();
+        if (!active_) {
+            return;
+        }
+
+        const auto end = std::chrono::steady_clock::now();
 
         const double elapsed_ms =
             std::chrono::duration<double, std::milli>(
@@ -65,9 +80,11 @@ public:
 private:
     std::string etapa_;
     std::string forma_tensor_;
-    std::chrono::high_resolution_clock::time_point start_;
+    bool active_;
+    std::chrono::steady_clock::time_point start_;
 };
 
+    
 
 // ============================================================
 // Macro para (des)activar la instrumentación en tiempo de

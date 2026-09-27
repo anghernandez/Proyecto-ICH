@@ -8,7 +8,8 @@ CXX := g++
 
 VENV := venv
 
-TARGET := cpp_kernels$(shell python3-config --extension-suffix)
+EXT_SUFFIX = $(shell $(PYTHON) -c "import sysconfig; print(sysconfig.get_config_var('EXT_SUFFIX'))")
+TARGET = cpp_kernels$(EXT_SUFFIX)
 
 KERNELS := \
 	kernels/Linear.cpp \
@@ -23,7 +24,7 @@ KERNELS := \
 BINDINGS := bindings/pybind_module.cpp
 
 CXXFLAGS := -O2 -Wall -shared -std=c++17 -fPIC
-INCLUDES := $(shell $(PYTHON) -m pybind11 --includes) -Ikernels
+INCLUDES = $(shell $(PYTHON) -m pybind11 --includes) -Ikernels
 
 IMAGE ?= test_images/imagen.jpeg
 
@@ -57,7 +58,7 @@ setup:
 # Compilar módulo C++/pybind11
 build: $(TARGET)
 
-$(TARGET): $(BINDINGS) $(KERNELS)
+$(TARGET): $(BINDINGS) $(KERNELS) $(wildcard kernels/*.hpp)
 	$(CXX) $(CXXFLAGS) \
 		$(INCLUDES) \
 		$(BINDINGS) \
@@ -96,3 +97,9 @@ help:
 	@echo ""
 	@echo "Para compilar con instrumentacion std::chrono activa:"
 	@echo "  make build PROFILE=1"
+
+# Compilar con perfilado habilitado
+.PHONY: profile-build
+
+profile-build:
+	$(MAKE) -B build PROFILE=1

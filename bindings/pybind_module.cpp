@@ -2,12 +2,9 @@
 #include <pybind11/pybind11.h>
 #include <pybind11/stl.h>
 
-//#include "ReLU.hpp"
-//#include "Tanh.hpp"
 #include "Linear.hpp"
-//#include "AvgPool2d.hpp"
 #include "Conv2d.hpp"
-#include "Pointwise_Conv2d.hpp" //Agregadas para MobileNetV2
+#include "Pointwise_Conv2d.hpp"
 #include "Depthwise_Conv2d.hpp"
 #include "BatchNorm2d.hpp"
 #include "GlobalAvgPool2d.hpp"
@@ -1095,10 +1092,23 @@ py::array_t<float> relu6_forward_binding(
 
 PYBIND11_MODULE(cpp_kernels, module)
 {
+    module.def(
+        "set_profile_enabled",
+        [](bool enabled) {
+            profiler_enabled() = enabled;
+        },
+        py::arg("enabled"),
+        "Activa o desactiva los registros del perfilado"
+    );
+
+#ifdef PROFILE_KERNELS
+    module.attr("profiling_compiled") = true;
+#else
+    module.attr("profiling_compiled") = false;
+#endif
+
     module.doc() =
         "Kernels C++ para capas de PyTorch";
-
-   
 
     module.def(
         "linear_forward",
