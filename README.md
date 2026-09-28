@@ -104,6 +104,13 @@ Las dependencias de Python utilizadas son:
 - pybind11
 - Pillow
 
+Para capturar desde la cámara se necesitan las bibliotecas de desarrollo
+de OpenCV para C++ y `pkg-config`:
+
+```bash
+sudo apt install libopencv-dev pkg-config
+```
+
 Estas dependencias pueden instalarse automáticamente utilizando el `Makefile`.
 
 ## Instalación
@@ -145,6 +152,35 @@ cpp_kernels.cpython-310-x86_64-linux-gnu.so
 El nombre exacto puede variar dependiendo de la versión de Python y de la arquitectura del sistema.
 
 ## Ejecución
+
+### Captura desde cámara
+
+Con el entorno virtual del proyecto existente, instala OpenCV para C++
+si todavía no lo tienes:
+
+```bash
+sudo apt install libopencv-dev pkg-config
+```
+
+Luego abre la vista previa y toma la foto con **espacio**:
+
+```bash
+make camera
+```
+
+La imagen se guarda en `test_images/captura.jpg`. **Q** o **Esc** cancelan la captura.
+Con `make camera CAMERA=1` puedes elegir otra cámara; con
+`make camera SAVE=test_images/gato.jpg` puedes cambiar el archivo de salida.
+Para tomar una foto automáticamente, sin vista previa, ejecuta `make camera-auto`.
+
+La cámara se abre y se captura en `bindings/camera_capture.cpp` mediante
+OpenCV C++. Ese módulo entrega una imagen RGB a Python. Python ejecuta las
+transformaciones de los pesos de ImageNet-1K y arma el modelo. La inferencia
+de la implementación comparada utiliza los kernels C++ del proyecto.
+El programa muestra la clase más probable, el top 5 y la comparación con
+PyTorch.
+
+### Comparación con imagen almacenada
 
 Para compilar, si es necesario, y ejecutar la comparación completa:
 
@@ -227,4 +263,3 @@ make help
 ```
 
 Muestra los comandos disponibles.
-

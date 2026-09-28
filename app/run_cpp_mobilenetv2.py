@@ -1,3 +1,4 @@
+import argparse
 import sys
 from pathlib import Path
 
@@ -22,6 +23,22 @@ sys.path.insert(0, str(CPP_DIR))
 
 
 from models import CppMobileNetV2
+
+
+# La cámara entrega la foto en RGB; el preprocesamiento sigue más abajo.
+def capture_from_camera(index: int, preview: bool = True) -> Image.Image:
+
+    import camera_capture
+
+    try:
+        pixels_rgb = camera_capture.capture(index, preview)
+    except RuntimeError as exc:
+        if str(exc) == "Captura cancelada.":
+            print("\nCaptura cancelada por el usuario.")
+            raise SystemExit(0) from None
+        raise
+
+    return Image.fromarray(pixels_rgb)
 
 
 # ============================================================
@@ -64,21 +81,31 @@ def main() -> None:
     # Imagen de entrada
     # ========================================================
 
-    if len(sys.argv) != 2:
+    parser = argparse.ArgumentParser(description="MobileNetV2 - PyTorch vs C++")
+    parser.add_argument("imagen", nargs="?", help="Imagen guardada (uso original)")
+    parser.add_argument("--image", help="Imagen guardada")
+    parser.add_argument("--camera", type=int, help="Índice de la cámara")
+    parser.add_argument("--no-preview", action="store_true")
+    parser.add_argument("--save", help="Guardar la imagen capturada")
+    args = parser.parse_args()
 
-        print(
-            "\nUso:"
-            "\npython3 python/apps/run_cpp_mobilenetv2.py "
-            "<imagen>"
-        )
+    if sum((args.imagen is not None, args.image is not None,
+            args.camera is not None)) != 1:
+        parser.error("Indica una imagen o una cámara")
 
-        raise SystemExit(1)
+    if args.camera is not None:
+        print(f"\nAbriendo cámara {args.camera}...")
+        image = capture_from_camera(args.camera, preview=not args.no_preview)
+        print("Imagen capturada:", image.size)
+    else:
+        image_path = args.image if args.image is not None else args.imagen
+        image = Image.open(
+            image_path
+        ).convert("RGB")
 
-    image_path = sys.argv[1]
-
-    image = Image.open(
-        image_path
-    ).convert("RGB")
+    if args.save:
+        image.save(args.save)
+        print("Imagen guardada en:", args.save)
 
     # Preprocesamiento oficial correspondiente
     # a los pesos IMAGENET1K_V1.
@@ -214,6 +241,13 @@ def main() -> None:
         f"  [{cpp_prediction}] "
         f"{cpp_class}"
     )
+
+    # Cinco clases con mayor probabilidad en la implementación C++.
+    cpp_probs = torch.softmax(cpp_output, dim=1)[0]
+    top5_probs, top5_ids = torch.topk(cpp_probs, k=5)
+    print("\nTop-5 C++:")
+    for prob, idx in zip(top5_probs.tolist(), top5_ids.tolist()):
+        print(f"  [{idx:4d}] {categories[idx]:<30s} {prob * 100:6.2f} %")
 
     # ========================================================
     # Validación
