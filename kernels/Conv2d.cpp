@@ -21,49 +21,115 @@ void conv2d_forward(
     bool use_bias
 )
 {
+    const int input_channel_size =
+        input_height * input_width;
+
+    const int output_channel_size =
+        output_height * output_width;
+
+    const int kernel_size =
+        kernel_height * kernel_width;
+
     for (
         int batch_index = 0;
         batch_index < batch_size;
         batch_index++
     ) {
+        const int input_batch_base =
+            batch_index
+            * input_channels
+            * input_channel_size;
+
+        const int output_batch_base =
+            batch_index
+            * output_channels
+            * output_channel_size;
+
         for (
             int output_channel = 0;
             output_channel < output_channels;
             output_channel++
         ) {
+            const int output_channel_base =
+                output_batch_base
+                + output_channel
+                * output_channel_size;
+
+            const int weight_output_base =
+                output_channel
+                * input_channels
+                * kernel_size;
+
+            const float bias_value =
+                use_bias
+                    ? bias[output_channel]
+                    : 0.0f;
+
             for (
                 int output_row = 0;
                 output_row < output_height;
                 output_row++
             ) {
+                const int input_row_start =
+                    output_row * stride_height
+                    - padding_height;
+
+                const int output_row_base =
+                    output_channel_base
+                    + output_row * output_width;
+
                 for (
                     int output_column = 0;
                     output_column < output_width;
                     output_column++
                 ) {
-                    float accumulated_value = 0.0f;
+                    float accumulated_value =
+                        bias_value;
 
-                    if (use_bias) {
-                        accumulated_value = bias[
-                            output_channel
-                        ];
-                    }
+                    const int input_column_start =
+                        output_column * stride_width
+                        - padding_width;
 
-                    // Aquí agregaremos la convolución.
                     for (
                         int input_channel = 0;
                         input_channel < input_channels;
                         input_channel++
                     ) {
+                        const int input_channel_base =
+                            input_batch_base
+                            + input_channel
+                            * input_channel_size;
+
+                        const int weight_channel_base =
+                            weight_output_base
+                            + input_channel
+                            * kernel_size;
+
                         for (
                             int kernel_row = 0;
                             kernel_row < kernel_height;
                             kernel_row++
                         ) {
                             const int input_row =
-                                output_row * stride_height
+                                input_row_start
+                                + kernel_row;
+
+                            if (
+                                input_row < 0
+                                || input_row >= input_height
+                            ) {
+                                continue;
+                            }
+
+                            const int input_row_base =
+                                input_channel_base
+                                + input_row
+                                * input_width;
+
+                            const int weight_row_base =
+                                weight_channel_base
                                 + kernel_row
-                                - padding_height;
+                                * kernel_width;
 
                             for (
                                 int kernel_column = 0;
@@ -71,72 +137,34 @@ void conv2d_forward(
                                 kernel_column++
                             ) {
                                 const int input_column =
-                                    output_column * stride_width
-                                    + kernel_column
-                                    - padding_width;
+                                    input_column_start
+                                    + kernel_column;
 
                                 if (
-                                    input_row >= 0
-                                    && input_row < input_height
-                                    && input_column >= 0
-                                    && input_column < input_width
+                                    input_column < 0
+                                    || input_column >= input_width
                                 ) {
-                                    const int input_position =
-                                        (
-                                            (
-                                                batch_index
-                                                * input_channels
-                                                + input_channel
-                                            )
-                                            * input_height
-                                            + input_row
-                                        )
-                                        * input_width
-                                        + input_column;
-
-                                    const int weight_position =
-                                        (
-                                            (
-                                                output_channel
-                                                * input_channels
-                                                + input_channel
-                                            )
-                                            * kernel_height
-                                            + kernel_row
-                                        )
-                                        * kernel_width
-                                        + kernel_column;
-
-                                    const float input_value =
-                                        input[input_position];
-
-                                    const float weight_value =
-                                        weight[weight_position];
-
-                                    accumulated_value += (
-                                        input_value * weight_value
-                                    );
+                                    continue;
                                 }
+
+                                accumulated_value +=
+                                    input[
+                                        input_row_base
+                                        + input_column
+                                    ]
+                                    *
+                                    weight[
+                                        weight_row_base
+                                        + kernel_column
+                                    ];
                             }
                         }
                     }
 
-                    const int output_position =
-                        (
-                            (
-                                batch_index
-                                * output_channels
-                                + output_channel
-                            )
-                            * output_height
-                            + output_row
-                        )
-                        * output_width
-                        + output_column;
-
-                    output[output_position] =
-                        accumulated_value;
-
+                    output[
+                        output_row_base
+                        + output_column
+                    ] = accumulated_value;
                 }
             }
         }

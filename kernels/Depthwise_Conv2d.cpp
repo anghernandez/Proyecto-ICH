@@ -20,6 +20,16 @@ void depthwise_conv2d_forward(
     bool use_bias
 )
 {
+    // Tamaño espacial de cada canal.
+    const int input_channel_size =
+        input_height * input_width;
+
+    const int output_channel_size =
+        output_height * output_width;
+
+    const int kernel_size =
+        kernel_height * kernel_width;
+
     for (
         int batch_index = 0;
         batch_index < batch_size;
@@ -30,21 +40,57 @@ void depthwise_conv2d_forward(
             channel < channels;
             channel++
         ) {
+            // Bases que no cambian mientras se procesa este canal.
+            const int input_channel_base =
+                (
+                    batch_index * channels
+                    + channel
+                )
+                * input_channel_size;
+
+            const int output_channel_base =
+                (
+                    batch_index * channels
+                    + channel
+                )
+                * output_channel_size;
+
+            const int weight_channel_base =
+                channel * kernel_size;
+
+            const float bias_value =
+                use_bias
+                    ? bias[channel]
+                    : 0.0f;
+
             for (
                 int output_row = 0;
                 output_row < output_height;
                 output_row++
             ) {
+                // Primera fila de entrada correspondiente
+                // a esta fila de salida.
+                const int input_row_start =
+                    output_row * stride_height
+                    - padding_height;
+
+                const int output_row_base =
+                    output_channel_base
+                    + output_row * output_width;
+
                 for (
                     int output_column = 0;
                     output_column < output_width;
                     output_column++
                 ) {
-                    float accumulated_value = 0.0f;
+                    float accumulated_value =
+                        bias_value;
 
-                    if (use_bias) {
-                        accumulated_value = bias[channel];
-                    }
+                    // Primera columna de entrada correspondiente
+                    // a esta posición de salida.
+                    const int input_column_start =
+                        output_column * stride_width
+                        - padding_width;
 
                     for (
                         int kernel_row = 0;
@@ -52,9 +98,25 @@ void depthwise_conv2d_forward(
                         kernel_row++
                     ) {
                         const int input_row =
-                            output_row * stride_height
-                            + kernel_row
-                            - padding_height;
+                            input_row_start
+                            + kernel_row;
+
+                        // Si toda esta fila del kernel está
+                        // fuera de la imagen, no procesarla.
+                        if (
+                            input_row < 0
+                            || input_row >= input_height
+                        ) {
+                            continue;
+                        }
+
+                        const int input_row_base =
+                            input_channel_base
+                            + input_row * input_width;
+
+                        const int weight_row_base =
+                            weight_channel_base
+                            + kernel_row * kernel_width;
 
                         for (
                             int kernel_column = 0;
@@ -62,65 +124,38 @@ void depthwise_conv2d_forward(
                             kernel_column++
                         ) {
                             const int input_column =
-                                output_column * stride_width
-                                + kernel_column
-                                - padding_width;
+                                input_column_start
+                                + kernel_column;
 
                             if (
-                                input_row >= 0
-                                && input_row < input_height
-                                && input_column >= 0
-                                && input_column < input_width
+                                input_column < 0
+                                || input_column >= input_width
                             ) {
-                                const int input_position =
-                                    (
-                                        (
-                                            batch_index
-                                            * channels
-                                            + channel
-                                        )
-                                        * input_height
-                                        + input_row
-                                    )
-                                    * input_width
-                                    + input_column;
-
-                                const int weight_position =
-                                    (
-                                        channel
-                                        * kernel_height
-                                        + kernel_row
-                                    )
-                                    * kernel_width
-                                    + kernel_column;
-
-                                const float input_value =
-                                    input[input_position];
-
-                                const float weight_value =
-                                    weight[weight_position];
-
-                                accumulated_value +=
-                                    input_value * weight_value;
+                                continue;
                             }
+
+                            const float input_value =
+                                input[
+                                    input_row_base
+                                    + input_column
+                                ];
+
+                            const float weight_value =
+                                weight[
+                                    weight_row_base
+                                    + kernel_column
+                                ];
+
+                            accumulated_value +=
+                                input_value
+                                * weight_value;
                         }
                     }
 
-                    const int output_position =
-                        (
-                            (
-                                batch_index
-                                * channels
-                                + channel
-                            )
-                            * output_height
-                            + output_row
-                        )
-                        * output_width
-                        + output_column;
-
-                    output[output_position] =
-                        accumulated_value;
+                    output[
+                        output_row_base
+                        + output_column
+                    ] = accumulated_value;
                 }
             }
         }

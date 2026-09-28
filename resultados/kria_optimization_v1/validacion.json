@@ -1,0 +1,8 @@
+[
+  {
+    "imagen": "imagen.jpeg",
+    "rmse": 3.221427277821931e-06,
+    "error_maximo": 1.1444091796875e-05,
+    "pass_test": true
+  }
+]
