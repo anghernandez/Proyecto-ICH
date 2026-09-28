@@ -188,22 +188,36 @@ Un porcentaje positivo representa una reducción del tiempo de ejecución.
 
 ## 2.1 CPU-1 — Mila
 
-> Pendiente completar cuando se ejecute Optimization V1 en CPU-1 utilizando
-> las mismas condiciones experimentales.
-
-| Métrica / Operación | Baseline | Optimization V1 | Cambio |
+| Métrica / Operación | Baseline | Optimization V1 | Mejora |
 |---|---:|---:|---:|
-| Inferencia C++ media | Pendiente | Pendiente | Pendiente |
-| Inferencia mediana | Pendiente | Pendiente | Pendiente |
-| Inferencia p95 | Pendiente | Pendiente | Pendiente |
-| Flujo total medio | Pendiente | Pendiente | Pendiente |
-| Pointwise Conv2D | Pendiente | Pendiente | Pendiente |
-| Depthwise Conv2D | Pendiente | Pendiente | Pendiente |
-| Conv2D | Pendiente | Pendiente | Pendiente |
-| ReLU6 | Pendiente | Pendiente | Pendiente |
-| BatchNorm2D | Pendiente | Pendiente | Pendiente |
-| Linear | Pendiente | Pendiente | Pendiente |
+| Inferencia C++ media | 286.33 ms | 216.28 ms | **24.46 %** |
+| Inferencia mediana | 285.46 ms | 216.14 ms | **24.28 %** |
+| Inferencia p95 | 290.20 ms | 217.41 ms | **25.08 %** |
+| Flujo total medio | 291.44 ms | 221.58 ms | **23.97 %** |
+| Pointwise Conv2D | 199.56 ms | 129.57 ms | **35.08 %** |
+| Depthwise Conv2D | 28.74 ms | 27.99 ms | **2.59 %** |
+| Conv2D | 15.89 ms | 17.24 ms | −8.46 % |
+| ReLU6 | 15.05 ms | 14.89 ms | 1.05 % |
+| BatchNorm2D | 19.91 ms | 19.85 ms | 0.32 % |
+| Linear | 1.11 ms | 1.11 ms | 0.43 % |
 
+El tiempo medio de inferencia disminuyó de **286.33 ms a 216.28 ms**, lo que
+representa una reducción del **24.46 %**.
+
+El factor de aceleración obtenido fue aproximadamente:
+
+```text
+Speedup = 286.33 / 216.28 ≈ 1.32×
+```
+
+De los tres kernels modificados, dos presentaron mejoras: Pointwise Conv2D
+(**35.08 %**) y Depthwise Conv2D (**2.59 %**). Conv2D, en cambio, resultó
+**más lento (~8.46 %)** que el baseline en esta máquina.
+
+Pointwise Conv2D continúa siendo la operación con mayor tiempo acumulado,
+y su reducción de **199.56 ms a 129.57 ms** explica la mayor parte de la
+mejora obtenida en el tiempo total de inferencia, a pesar del retroceso en
+Conv2D.
 ---
 
 ## 2.2 CPU-2 — Angie
