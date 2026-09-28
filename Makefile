@@ -1,6 +1,6 @@
-# *******************************
+# ********************************
 # MobileNetV2 - PyTorch vs C++
-#********************************
+# ********************************
 
 PYTHON := venv/bin/python
 PIP := venv/bin/pip
@@ -29,6 +29,7 @@ INCLUDES := $(shell $(PYTHON) -m pybind11 --includes) -Ikernels
 IMAGE ?= test_images/imagen.jpeg
 CAMERA ?= 0
 SAVE ?= test_images/captura.jpg
+
 APP := app/run_cpp_mobilenetv2.py
 
 
@@ -41,24 +42,23 @@ APP := app/run_cpp_mobilenetv2.py
 all: build
 
 
+# ------------------------------------------------------------
+# Entorno virtual
+# ------------------------------------------------------------
+
 # Crear entorno virtual e instalar dependencias
 setup:
 	python3 -m venv $(VENV)
 	$(PIP) install --upgrade pip
-	$(PIP) install --no-cache-dir pybind11 numpy pillow
-	$(PIP) install --no-cache-dir torch torchvision --index-url https://download.pytorch.org/whl/cpu
+	$(PIP) install pybind11 numpy torch torchvision pillow
 
+
+# ------------------------------------------------------------
+# MobileNetV2 C++ / pybind11
+# ------------------------------------------------------------
 
 # Compilar módulo C++/pybind11
 build: $(TARGET)
-
-camera-module: $(CAMERA_TARGET)
-
-$(CAMERA_TARGET): bindings/camera_capture.cpp
-	$(CXX) $(CXXFLAGS) \
-		$(shell $(PYTHON) -m pybind11 --includes) \
-		$(shell pkg-config --cflags opencv4) \
-		$< -o $@ $(shell pkg-config --libs opencv4)
 
 $(TARGET): $(BINDINGS) $(KERNELS)
 	$(CXX) $(CXXFLAGS) \
@@ -68,20 +68,50 @@ $(TARGET): $(BINDINGS) $(KERNELS)
 		-o $(TARGET)
 
 
-# Ejecutar comparación con una imagen guardada
+# ------------------------------------------------------------
+# Cámara C++ / OpenCV / pybind11
+# ------------------------------------------------------------
+
+# Compilar módulo de captura de cámara
+camera-module: $(CAMERA_TARGET)
+
+$(CAMERA_TARGET): bindings/camera_capture.cpp
+	$(CXX) $(CXXFLAGS) \
+		$(shell $(PYTHON) -m pybind11 --includes) \
+		$(shell pkg-config --cflags opencv4) \
+		$< \
+		-o $@ \
+		$(shell pkg-config --libs opencv4)
+
+
+# ------------------------------------------------------------
+# Ejecución
+# ------------------------------------------------------------
+
+# Ejecutar comparación PyTorch vs C++ con una imagen almacenada
 run: build
 	PYTHONPATH="$(CURDIR)" $(PYTHON) $(APP) --image "$(IMAGE)"
 
-# Capturar desde la cámara y comparar ambas implementaciones
+
+# Capturar imagen desde cámara y ejecutar MobileNetV2
 camera: build camera-module
-	PYTHONPATH="$(CURDIR)" $(PYTHON) $(APP) --camera $(CAMERA) --save "$(SAVE)"
+	PYTHONPATH="$(CURDIR)" $(PYTHON) $(APP) \
+		--camera $(CAMERA) \
+		--save "$(SAVE)"
 
-# Captura automática sin ventana de vista previa
+
+# Capturar automáticamente sin ventana de previsualización
 camera-auto: build camera-module
-	PYTHONPATH="$(CURDIR)" $(PYTHON) $(APP) --camera $(CAMERA) --no-preview --save "$(SAVE)"
+	PYTHONPATH="$(CURDIR)" $(PYTHON) $(APP) \
+		--camera $(CAMERA) \
+		--no-preview \
+		--save "$(SAVE)"
 
 
-# Eliminar archivos generados
+# ------------------------------------------------------------
+# Limpieza
+# ------------------------------------------------------------
+
 clean:
 	rm -f cpp_kernels*.so
 	rm -f camera_capture*.so
@@ -92,20 +122,25 @@ clean:
 	rm -rf wrappers/__pycache__
 
 
-# Mostrar ayuda
+# ------------------------------------------------------------
+# Ayuda
+# ------------------------------------------------------------
+
 help:
 	@echo "MobileNetV2 - PyTorch vs C++"
 	@echo ""
 	@echo "Comandos disponibles:"
-	@echo "  make setup   Crear venv e instalar dependencias"
-	@echo "  make build   Compilar los kernels C++"
-	@echo "  make run     Compilar y ejecutar la prueba"
-	@echo "  make camera-module      Compilar captura C++ (requiere libopencv-dev)"
-	@echo "  make camera CAMERA=0  Abrir la cámara y comparar las predicciones"
-	@echo "  make camera-auto       Capturar sin vista previa"
-	@echo "  make clean   Eliminar archivos generados"
-	@echo "  make help    Mostrar esta ayuda"
+	@echo "  make setup          Crear venv e instalar dependencias"
+	@echo "  make build          Compilar los kernels C++"
+	@echo "  make run            Ejecutar con una imagen almacenada"
+	@echo "  make camera-module  Compilar el módulo de cámara"
+	@echo "  make camera         Capturar imagen y ejecutar MobileNetV2"
+	@echo "  make camera-auto    Capturar sin vista previa y ejecutar"
+	@echo "  make clean          Eliminar archivos generados"
+	@echo "  make help           Mostrar esta ayuda"
 	@echo ""
-	@echo "Para utilizar otra imagen:"
+	@echo "Opciones:"
 	@echo "  make run IMAGE=ruta/a/imagen.jpg"
-	@echo "  make camera SAVE=test_images/gato.jpg"
+	@echo "  make camera CAMERA=0"
+	@echo "  make camera CAMERA=0 SAVE=test_images/captura.jpg"
+	@echo "  make camera-auto CAMERA=0 SAVE=test_images/captura.jpg"
