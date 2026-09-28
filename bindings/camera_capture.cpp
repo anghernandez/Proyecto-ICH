@@ -57,9 +57,9 @@ py::array_t<std::uint8_t> capture(int index, bool preview, int warmup_frames) {
                     break;
                 }
 
-                // También se puede salir con Q, Esc o cerrando la ventana
-                if (key == 'q' || key == 'Q' || key == 27
-                    || cv::getWindowProperty(window, cv::WND_PROP_VISIBLE) < 1) {
+                // También se puede salir con Q, Esc
+                // Salir con Q o Esc
+                if (key == 'q' || key == 'Q' || key == 27) {
                     throw std::runtime_error("Captura cancelada.");
                 }
             }
