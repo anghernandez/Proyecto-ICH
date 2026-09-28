@@ -451,9 +451,14 @@ forma que la operación matemática del kernel no cambia.
 Los resultados muestran que Optimization V1 produce efectos diferentes según
 la plataforma utilizada.
 
+En CPU-1, la optimización redujo el tiempo medio de inferencia en **24.46 %**,
+pasando de **286.33 ms a 216.28 ms**, con un speedup aproximado de **1.32×**.
+Dos de los tres kernels modificados mejoraron —Pointwise Conv2D (**35.08 %**)
+y Depthwise Conv2D (**2.59 %**)—, mientras que Conv2D resultó **~8.46 % más
+lento** que el baseline en esta máquina.
+
 En CPU-2, la optimización redujo el tiempo medio de inferencia en **31.32 %**,
 pasando de **345.05 ms a 236.98 ms**, con un speedup aproximado de **1.46×**.
-
 Los tres kernels modificados presentaron mejoras individuales, siendo
 Pointwise Conv2D el cambio con mayor impacto.
 
@@ -464,7 +469,10 @@ el tiempo medio de inferencia aumentó aproximadamente un **10.66 %**.
 
 Por lo tanto, los resultados de esta primera etapa muestran que una
 modificación que mejora el rendimiento en una plataforma no necesariamente
-produce el mismo efecto en otra arquitectura.
+produce el mismo efecto en otra arquitectura: incluso entre las dos
+computadoras x86 (CPU-1 y CPU-2), Conv2D tuvo comportamientos opuestos
+—mejoró en una y empeoró en la otra—, mientras que Pointwise Conv2D fue la
+única optimización consistentemente positiva en ambas.
 
 No se determina únicamente a partir de este perfilado cuál es la causa
 microarquitectónica de esta diferencia. Para establecerla sería necesario
