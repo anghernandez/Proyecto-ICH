@@ -1,0 +1,18 @@
+[
+  {
+    "etapa": "importaciones",
+    "tiempo_ms": 2977.575359,
+    "cpu_ms": 3579.7159999999994,
+    "cpu_pct_un_nucleo": 120.22251558402957,
+    "rss_antes_mib": 17.42578125,
+    "rss_despues_mib": 645.93359375
+  },
+  {
+    "etapa": "carga_modelos_y_pesos",
+    "tiempo_ms": 189.32496,
+    "cpu_ms": 189.3249999999998,
+    "cpu_pct_un_nucleo": 100.00002112769482,
+    "rss_antes_mib": 646.08203125,
+    "rss_despues_mib": 678.38671875
+  }
+]
