@@ -1,3 +1,4 @@
+from typing import Tuple, Union
 import math
 
 import numpy as np
@@ -8,9 +9,9 @@ import cpp_kernels
 
 
 def _to_pair(
-    value: int | tuple[int, int],
+    value: Union[int, Tuple[int, int]],
     name: str
-) -> tuple[int, int]:
+) -> Tuple[int, int]:
 
     if isinstance(value, int):
         return value, value
@@ -29,10 +30,10 @@ class CppConv2d(nn.Module):
         self,
         in_channels: int,
         out_channels: int,
-        kernel_size: int | tuple[int, int],
-        stride: int | tuple[int, int] = 1,
-        padding: int | tuple[int, int] = 0,
-        dilation: int | tuple[int, int] = 1,
+        kernel_size: Union[int, Tuple[int, int]],
+        stride: Union[int, Tuple[int, int]] = 1,
+        padding: Union[int, Tuple[int, int]] = 0,
+        dilation: Union[int, Tuple[int, int]] = 1,
         groups: int = 1,
         bias: bool = True
     ) -> None:
