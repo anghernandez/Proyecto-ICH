@@ -640,45 +640,4 @@ El speedup obtenido (5.14×) queda lejos de la cota de Amdahl (15.2×) por tres
 factores medidos: las copias en cada capa (42.82 ms), las operaciones que
 siguen en CPU (78.91 ms) y el tiempo de Python entre capas (38.81 ms).
 
----
 
-# 7. Siguientes pasos
-
-1. **Eliminar la copia intermedia.** Usar memoria fija (*pinned*) o memoria
-   compartida con la GPU (*zero-copy*), aprovechando que en la Jetson CPU y
-   GPU usan la misma DRAM. Eliminaría la mayor parte de los 42.82 ms de copias.
-2. **Mantener los datos en la GPU.** Cargar los pesos una sola vez y conservar
-   las activaciones en la GPU entre capas.
-3. **Llevar BatchNorm2D y ReLU6 a la GPU.** BatchNorm2D puede integrarse en los
-   pesos de la convolución al cargar el modelo y ReLU6 aplicarse al final del
-   mismo kernel; hoy suman 74.47 ms en CPU.
-4. **Optimizar Pointwise Conv2D.** Es una multiplicación de matrices; con
-   memoria compartida y reutilización de datos puede reducir sus 59.06 ms de
-   kernel, y sigue siendo el 42 % del tiempo de los kernels.
-5. **Sacar torch del proceso de inferencia.** Hacer el preprocesamiento sin
-   torch eliminaría los 2 GB y los 6.7 s del contexto CUDA.
-6. **Evaluar la FPGA** para las operaciones de baja intensidad aritmética, en
-   la siguiente etapa del proyecto.
-
----
-
-# 8. Conclusiones
-
-La descarga de las tres convoluciones a la GPU de la Jetson Nano reduce el
-tiempo medio de inferencia de **1276.11 ms a 248.04 ms (5.14×)** y el flujo
-total de **1298.49 ms a 270.63 ms (4.80×)**, con resultados idénticos a la
-versión CPU. La energía por inferencia baja de **3.79 J a 0.99 J (3.8×)**,
-aunque la potencia media aumenta.
-
-Pointwise Conv2D, la operación dominante, se acelera 10.84×, mientras que
-Depthwise Conv2D solo 3.86×, porque copiar sus datos cuesta casi lo mismo que
-calcularlos.
-
-Después de la descarga, las convoluciones dejan de ser el cuello de botella
-único: las operaciones en CPU, las copias y el tiempo de Python ocupan casi la
-mitad de la inferencia, y la GPU permanece activa solo alrededor de un tercio
-del tiempo. Los siguientes pasos se enfocan en reducir el movimiento de datos
-y en llevar más operaciones a la GPU.
-
-La memoria propia de la aceleración es de 10.75 MiB; el costo de memoria y de
-arranque observado proviene de tener torch con CUDA en el mismo proceso.
