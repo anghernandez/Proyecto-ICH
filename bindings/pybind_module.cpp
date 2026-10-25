@@ -12,6 +12,13 @@
 #include "ReLU6.hpp"
 #include "Profiler.hpp"
 
+// Versión GPU (make gpu-build / profile-build-gpu): Conv2d,
+// Pointwise y Depthwise se enlazan desde kernels/cuda/*.cu con
+// las mismas funciones; aquí solo se agrega el perfilado GPU.
+#ifdef USE_CUDA
+#include "GpuProfilerBindings.hpp"
+#endif
+
 namespace py = pybind11;
 
 
@@ -1105,6 +1112,13 @@ PYBIND11_MODULE(cpp_kernels, module)
     module.attr("profiling_compiled") = true;
 #else
     module.attr("profiling_compiled") = false;
+#endif
+
+#ifdef USE_CUDA
+    module.attr("usa_cuda") = true;
+    register_gpu_profiler(module);
+#else
+    module.attr("usa_cuda") = false;
 #endif
 
     module.doc() =

@@ -71,10 +71,63 @@ run: build
 	PYTHONPATH="$(CURDIR)" $(PYTHON) app/run_cpp_mobilenetv2.py $(IMAGE)
 
 
+# ------------------------------------------------------------
+# Versión con GPU (CUDA) -- Jetson Nano (Maxwell, sm_53)
+#
+# Conv2d, Pointwise y Depthwise se compilan desde kernels/cuda/
+# con las mismas funciones que la versión CPU, así que ni los
+# bindings ni el modelo en Python cambian. El resto de
+# operaciones (BatchNorm, ReLU6, etc.) sigue en CPU.
+# ------------------------------------------------------------
+
+CUDA_HOME ?= /usr/local/cuda
+NVCC ?= $(CUDA_HOME)/bin/nvcc
+CUDA_ARCH ?= sm_53
+CUDA_BUILD := build_cuda
+
+CUDA_KERNELS := \
+	kernels/cuda/Conv2d.cu \
+	kernels/cuda/Pointwise_Conv2d.cu \
+	kernels/cuda/Depthwise_Conv2d.cu
+
+CPU_KERNELS_GPU_BUILD := \
+	kernels/Linear.cpp \
+	kernels/BatchNorm2d.cpp \
+	kernels/GlobalAvgPool2d.cpp \
+	kernels/LayerAdd.cpp \
+	kernels/ReLU6.cpp
+
+NVCCFLAGS := -O2 -std=c++14 -arch=$(CUDA_ARCH) -Xcompiler -fPIC \
+	-Ikernels -I$(CUDA_HOME)/include
+CUDA_LINK := -L$(CUDA_HOME)/lib64 -Wl,-rpath,$(CUDA_HOME)/lib64 -lcudart
+
+ifeq ($(PROFILE),1)
+NVCCFLAGS += -DPROFILE_KERNELS
+endif
+
+.PHONY: gpu-build profile-build-gpu
+
+gpu-build:
+	mkdir -p $(CUDA_BUILD)
+	$(foreach source,$(CUDA_KERNELS),$(NVCC) $(NVCCFLAGS) -c $(source) -o $(CUDA_BUILD)/$(notdir $(source:.cu=.o)) &&) true
+	$(CXX) $(CXXFLAGS) -DUSE_CUDA \
+		$(INCLUDES) -I$(CUDA_HOME)/include \
+		$(BINDINGS) \
+		$(CPU_KERNELS_GPU_BUILD) \
+		$(addprefix $(CUDA_BUILD)/,$(notdir $(CUDA_KERNELS:.cu=.o))) \
+		$(CUDA_LINK) \
+		-o $(TARGET)
+
+# Compilar versión GPU con perfilado (ScopedTimer + cudaEvent)
+profile-build-gpu:
+	$(MAKE) gpu-build PROFILE=1
+
+
 # Eliminar archivos generados
 clean:
 	rm -f cpp_kernels*.so
 	rm -f kernels/*.o
+	rm -rf $(CUDA_BUILD)
 	rm -rf __pycache__
 	rm -rf app/__pycache__
 	rm -rf models/__pycache__
@@ -97,6 +150,10 @@ help:
 	@echo ""
 	@echo "Para compilar con instrumentacion std::chrono activa:"
 	@echo "  make build PROFILE=1"
+	@echo ""
+	@echo "Version GPU (Jetson, convoluciones en CUDA):"
+	@echo "  make gpu-build PYTHON=python3"
+	@echo "  make profile-build-gpu PYTHON=python3"
 
 # Compilar con perfilado habilitado
 .PHONY: profile-build
