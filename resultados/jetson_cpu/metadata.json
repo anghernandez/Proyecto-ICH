@@ -1,0 +1,194 @@
+{
+  "status": "completo",
+  "fecha_utc": "2026-10-24T22:52:09.603689+00:00",
+  "argumentos": {
+    "images": [
+      "test_images/imagen.jpeg"
+    ],
+    "iterations": 120,
+    "warmup": 8,
+    "threads": 1,
+    "output_dir": "resultados/jetson_cpu",
+    "preprocess": "official",
+    "kernel_profile": "on",
+    "gpu_profile": "on",
+    "monitor": "on",
+    "monitor_interval_ms": 20,
+    "idle_seconds": 10,
+    "nvprof_region": "off",
+    "weights_file": null,
+    "categories_file": null
+  },
+  "plataforma": "Linux-4.9.253-tegra-aarch64-with-Ubuntu-18.04-bionic",
+  "arquitectura": "aarch64",
+  "hostname": "jetson-183",
+  "python": "3.6.9 (default, Mar 10 2023, 16:46:00) \n[GCC 8.4.0]",
+  "cpu_logicos": 4,
+  "afinidad": [
+    0,
+    1,
+    2,
+    3
+  ],
+  "git_commit": "eb2ebc7b1770223a4e857819fa597da13c3fe397",
+  "git_estado": "M wrappers/Conv2d.py\n?? PERFILADO_JETSON.md\n?? app/comparar_resultados.py\n?? app/imagenet_classes.txt\n?? app/jetson_monitor.py\n?? app/profile_jetson.py\n?? bindings/GpuProfilerBindings.hpp\n?? kernels/GpuProfiler.hpp\n?? resultados/prueba_jetson/",
+  "compilador": "g++ (Ubuntu/Linaro 7.5.0-3ubuntu1~18.04) 7.5.0\nCopyright (C) 2017 Free Software Foundation, Inc.\nThis is free software; see the source for copying conditions.  There is NO\nwarranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.",
+  "entorno_hilos": {
+    "OMP_NUM_THREADS": null,
+    "MKL_NUM_THREADS": null,
+    "OPENBLAS_NUM_THREADS": null
+  },
+  "jetson": {
+    "nv_tegra_release": "# R32 (release), REVISION: 7.1, GCID: 29818004, BOARD: t210ref, EABI: aarch64, DATE: Sat Feb 19 17:05:08 UTC 2022",
+    "nvpmodel": "NVPM WARN: fan mode is not set!\nNV Power Mode: MAXN\n0\nNVPM ERROR: Error opening /sys/kernel/nvpmodel_emc_cap/emc_iso_cap: 13\nNVPM ERROR: failed to read PARAM EMC: ARG MAX_FREQ: PATH /sys/kernel/nvpmodel_emc_cap/emc_iso_cap",
+    "nvcc": "nvcc: NVIDIA (R) Cuda compiler driver\nCopyright (c) 2005-2021 NVIDIA Corporation\nBuilt on Sun_Feb_28_22:34:44_PST_2021\nCuda compilation tools, release 10.2, V10.2.300\nBuild cuda_10.2_r440.TC440_70.29663091_0",
+    "gpu_freq_hz": {
+      "cur_freq": "921600000",
+      "min_freq": "921600000",
+      "max_freq": "921600000",
+      "governor": "nvhost_podgov"
+    },
+    "cpu_freq_khz": {
+      "cpu0": {
+        "scaling_cur_freq": "1479000",
+        "scaling_min_freq": "1479000",
+        "scaling_max_freq": "1479000",
+        "scaling_governor": "schedutil"
+      },
+      "cpu1": {
+        "scaling_cur_freq": "1479000",
+        "scaling_min_freq": "1479000",
+        "scaling_max_freq": "1479000",
+        "scaling_governor": "schedutil"
+      },
+      "cpu2": {
+        "scaling_cur_freq": "1479000",
+        "scaling_min_freq": "1479000",
+        "scaling_max_freq": "1479000",
+        "scaling_governor": "schedutil"
+      },
+      "cpu3": {
+        "scaling_cur_freq": "1479000",
+        "scaling_min_freq": "1479000",
+        "scaling_max_freq": "1479000",
+        "scaling_governor": "schedutil"
+      }
+    }
+  },
+  "reloj": "CLOCK_MONOTONIC (mismo que el monitor)",
+  "memoria": "RSS del proceso antes/después. En la inferencia, además, pico de memoria GPU reservada por los kernels y cudaMemGetInfo (en Jetson es memoria del sistema).",
+  "lectura": "Caché del sistema operativo sin vaciar.",
+  "fuentes_sha256": {
+    "app/comparar_resultados.py": "6c82e9d69442fcd4ecc00a475e6dcb0246481d9ce179828086d470a91317acdf",
+    "app/jetson_monitor.py": "a2d63ab6438765e12515dfa6b4b77d9d940f3ad109e26cf99ef4363587be49ee",
+    "app/profile_complete.py": "356214c795a394d71d58a2104b97cd618264fb964f8a1e326dc5c6001baa5fc7",
+    "app/profile_jetson.py": "66b0cea1deea4e29d418e24cf8e012cfe69c5017582b0e305d267b2ddcf350dc",
+    "app/profile_run.py": "a087d75f123a508bd19050c2b861d61147313178a8813b0962ba37a904ae600c",
+    "app/run_cpp_mobilenetv2.py": "fccb08ceec25938c7b63e243d23c421be972328367584270b92d0a51ce390a1d",
+    "bindings/GpuProfilerBindings.hpp": "f04c9c2a8f66d8a82675077239e0251790dc343ad1ee2bfe0e7a778a97965143",
+    "bindings/pybind_module.cpp": "d6c074dbfff2e4f0474500464d69b289e05d39714d0a51649fde45aaf445c83a",
+    "kernels/BatchNorm2d.cpp": "8a35ea70e163e67e42383bb15d75256c023f4402aceb2f354d96da45edc33b0a",
+    "kernels/BatchNorm2d.hpp": "a15d2d89b7af0120cf63039b17852dbbda37dfa85adb5827ab4fe61cf1f63cb2",
+    "kernels/Conv2d.cpp": "0b1939bb9d40be72109e00183121cff8bc51e8f0daf574c5c38cf575f8907ee0",
+    "kernels/Conv2d.hpp": "ccaf3a56b7ce7916ca160bec60d2e64ac6691a8f405fcdaded1bbea93e0d0f90",
+    "kernels/Depthwise_Conv2d.cpp": "47e3edc3b2fd63f0e4746eb922ad8432d3a9cbd6c92760520251c23487f7a6af",
+    "kernels/Depthwise_Conv2d.hpp": "3c81a6eaaf094874443a7226e427fad808737756e330ad9fc8e6e90a2b877a73",
+    "kernels/GlobalAvgPool2d.cpp": "f9f3721e849ab38cc5dd38dbb08e07872ae1cda986a2e07383c4167b34ad4cff",
+    "kernels/GlobalAvgPool2d.hpp": "8de1683f32a66065fbaff1ad371e34084a782a7a58a1de40d2e63cdf1d8e8a3d",
+    "kernels/GpuProfiler.hpp": "6aad6812a453b841d9730025f0850d1f7590ef394de198308e54bfbd8f9fd539",
+    "kernels/LayerAdd.cpp": "a1b87210d8c862da7b1e60e2a7964dec5e7a52febb6235afa77ec55b8399d63c",
+    "kernels/LayerAdd.hpp": "3b5a04831867c9dd29d2630ff29a23cdc45780995c6bd2c65aaf0151f180b10b",
+    "kernels/Linear.cpp": "3b4c19adb42ca656fa7454a704293ca0c89c659fd7fa9dfb5c6f43053a0d8213",
+    "kernels/Linear.hpp": "c0f2299f45f78daa957782e53122c251b54cc165e06e07b4ac798bad615cef5f",
+    "kernels/Pointwise_Conv2d.cpp": "43ed17d1ebe9140338abde2ddb41cfb9e3134fa50eba76926207ba57a6aae2d0",
+    "kernels/Pointwise_Conv2d.hpp": "a4e43d669d63a205c1d1a5b4fe82813b9feb587e7166fe92b88ccc5ff8e5b92f",
+    "kernels/Profiler.hpp": "753bf9602eedf3820dff1dfdc06b95b4c85c9b36d8edd9f9ecbb64b54821f137",
+    "kernels/ReLU6.cpp": "43207f3207808f27df2ee2049fdfd7b223c681da846286afd45193583e2f036f",
+    "kernels/ReLU6.hpp": "56a622291afb71c67e71137adcba6388e7b3a4857062af396c85f8a19f47e421",
+    "models/CppMobileNetV2.py": "c62a81740658acc3ac29a9ab5ee0c6bad23820e79e017c9f50a95eb24a51a96f",
+    "models/ManualMobileNetV2.py": "e50e63da1cd5c2faf16dfadf6595dc2fbe3e652bc97d45e25e15c1f346a8420e",
+    "models/MobileNetV2.py": "a06b66b8705a3e47cdbca29b1613e01e59c797efb7423756eb6e447d008acf70",
+    "models/__init__.py": "a27a91eea9aedd5dfdcf136150641887c5003fe52c6823d95d62b4f18e6adc52",
+    "wrappers/BatchNorm2d.py": "71c2271d990d9430668a9a650e3ab059572d5267b7694f8dd1fd1fc3813860c6",
+    "wrappers/Conv2d.py": "9b10385ff70bf19d73454af14063b14020f4d34f16f99fabd078431a87dbd71a",
+    "wrappers/DepthwiseConv2d.py": "e4dca4c45bbe9d7be6522f0c9cec8af28bb355bd2b7f1761525779ebbac4f158",
+    "wrappers/GlobalAvgPool2d.py": "3fbfeb71343f6b89cd68ba3b88065948d76962cde75d586490a4676f282e5826",
+    "wrappers/LayerAdd.py": "941e944950ad1e1ec3813d0bce24ad9bf3f45d0700da88b675c9bc4cce39f198",
+    "wrappers/Linear.py": "bf30370f8c7de2419099d5bdea5ab256196c77f0e8eff6bf562cca1c4c90ccea",
+    "wrappers/PointwiseConv2d.py": "f28babce5292a9d3d36cfc1ad45184188cf0668c0f1c30b9c9ee475120ba033f",
+    "wrappers/ReLU6.py": "111cf02db1a88d0792de2adbb4d92eb3c4de203a42615fa29e2b18bd0acc9ff5",
+    "wrappers/__init__.py": "008362ffbece33662dec13cbc602f5430c2ca2be0930a4059edc794ae77d42aa"
+  },
+  "makefile_sha256": "c6664307e819d72c702cedb509a0b58701b5b4ba7abfe90ed5c2f7ab858ee043",
+  "imagenes": [
+    {
+      "id": 0,
+      "nombre": "imagen.jpeg",
+      "sha256": "3f1e13493fae73bed0b9f95168edab73ebb752f16f1851ff6ee6158bb07d5bc0"
+    }
+  ],
+  "monitor_fuentes": {
+    "gpu_carga": true,
+    "gpu_freq": true,
+    "rieles": {
+      "POM_5V_IN": true,
+      "POM_5V_GPU": true,
+      "POM_5V_CPU": true
+    },
+    "rieles_encontrados": 3
+  },
+  "torch": "1.10.0",
+  "torchvision": "0.11.1",
+  "numpy": "1.13.3",
+  "torch_hilos": 1,
+  "torch_hilos_interop": 1,
+  "perfilado_compilado": true,
+  "perfilado_gpu_disponible": false,
+  "modulo_sha256": "6781e3e8b05cf128c67b310b326baf294cb31724e65ede1e8f46eb72c151711f",
+  "pesos": "IMAGENET1K_V1",
+  "pesos_archivo_sha256": null,
+  "parametros_sha256": "a5f431d407a07362b2251e5eac065718b6c6e96645bc115a1a74d907d6e94bf4",
+  "transformaciones": "Compose(\n    Resize(size=256, interpolation=bilinear, max_size=None, antialias=None)\n    CenterCrop(size=(224, 224))\n    ToTensor()\n    Normalize(mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225])\n)",
+  "energia": {
+    "reposo": {
+      "duracion_ms": 10006.428401,
+      "potencia_media_mw_POM_5V_IN": 1944.1865115785845,
+      "energia_mj_POM_5V_IN": 19454.36312630106,
+      "potencia_media_mw_POM_5V_GPU": 165.00199894090062,
+      "energia_mj_POM_5V_GPU": 1651.080688424,
+      "potencia_media_mw_POM_5V_CPU": 451.7218224701375,
+      "energia_mj_POM_5V_CPU": 4520.122073716664,
+      "gpu_carga_pct_media": 0.0,
+      "gpu_freq_mhz_media": 921.6000000000007,
+      "ram_usada_mib_media": 719.1422889082204,
+      "cpu_total_pct_media": 5.140856647671086
+    },
+    "bloque_medido": {
+      "duracion_ms": 156575.452187,
+      "potencia_media_mw_POM_5V_IN": 2968.0185121023246,
+      "energia_mj_POM_5V_IN": 464718.84063180845,
+      "potencia_media_mw_POM_5V_GPU": 164.0,
+      "energia_mj_POM_5V_GPU": 25678.374158668,
+      "potencia_media_mw_POM_5V_CPU": 1401.0216753529523,
+      "energia_mj_POM_5V_CPU": 219365.6023421768,
+      "gpu_carga_pct_media": 0.0,
+      "gpu_freq_mhz_media": 921.6000000000012,
+      "ram_usada_mib_media": 714.0670566221474,
+      "cpu_total_pct_media": 30.964954353699568
+    },
+    "energia_por_iteracion_mj": {
+      "POM_5V_IN": 3872.6570052650704,
+      "POM_5V_GPU": 213.98645132223334,
+      "POM_5V_CPU": 1828.0466861848067
+    },
+    "ram_sistema_pico_mib": 722.59765625,
+    "gpu_carga_max_pct": 0.0,
+    "muestras_monitor_en_bloque": 7829,
+    "nota": "Energía por iteración = energía del bloque de medición / iteraciones (incluye escritura de CSV entre iteraciones). energia_dinamica = energía - potencia en reposo x duración."
+  },
+  "muestras_por_etapa": 120,
+  "llamadas_por_inferencia": 151,
+  "registros_gpu_por_inferencia": 0,
+  "supera_100_muestras": true,
+  "nota_total": "Incluye instrumentación interna. No sumar total con etapas ni inferencia con kernels."
+}

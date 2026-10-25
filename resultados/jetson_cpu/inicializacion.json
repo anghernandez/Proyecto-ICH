@@ -1,0 +1,28 @@
+[
+  {
+    "etapa": "importaciones",
+    "tiempo_ms": 3467.036806,
+    "cpu_ms": 4216.0,
+    "cpu_pct_un_nucleo": 121.60240101010338,
+    "rss_antes_mib": 14.49609375,
+    "rss_despues_mib": 212.74609375,
+    "t_inicio_ns": 1993812186357037,
+    "t_fin_ns": 1993815653393843,
+    "gpu_propia_pico_mib": "",
+    "gpu_driver_usada_antes_mib": "",
+    "gpu_driver_usada_despues_mib": ""
+  },
+  {
+    "etapa": "carga_modelos_y_pesos",
+    "tiempo_ms": 659.180799,
+    "cpu_ms": 656.0000000000001,
+    "cpu_pct_un_nucleo": 99.51746182461243,
+    "rss_antes_mib": 212.8203125,
+    "rss_despues_mib": 246.91015625,
+    "t_inicio_ns": 1993815655030780,
+    "t_fin_ns": 1993816314211579,
+    "gpu_propia_pico_mib": "",
+    "gpu_driver_usada_antes_mib": "",
+    "gpu_driver_usada_despues_mib": ""
+  }
+]

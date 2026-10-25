@@ -1,0 +1,24 @@
+{
+  "intervalo_ms": 20.0,
+  "fuentes": {
+    "gpu_load": "/sys/devices/gpu.0/load",
+    "gpu_freq": "/sys/devices/gpu.0/devfreq/57000000.gpu/cur_freq",
+    "rieles": [
+      {
+        "nombre": "POM_5V_IN",
+        "tipo": "iio",
+        "potencia": "/sys/bus/i2c/drivers/ina3221x/6-0040/iio:device0/in_power0_input"
+      },
+      {
+        "nombre": "POM_5V_GPU",
+        "tipo": "iio",
+        "potencia": "/sys/bus/i2c/drivers/ina3221x/6-0040/iio:device0/in_power1_input"
+      },
+      {
+        "nombre": "POM_5V_CPU",
+        "tipo": "iio",
+        "potencia": "/sys/bus/i2c/drivers/ina3221x/6-0040/iio:device0/in_power2_input"
+      }
+    ]
+  }
+}

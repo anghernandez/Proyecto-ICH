@@ -1,0 +1,43 @@
+[
+  {
+    "etapa": "importaciones",
+    "tiempo_ms": 3484.485015,
+    "cpu_ms": 4264.0,
+    "cpu_pct_un_nucleo": 122.3710241727069,
+    "rss_antes_mib": 14.20703125,
+    "rss_despues_mib": 213.16015625,
+    "t_inicio_ns": 1995670306769507,
+    "t_fin_ns": 1995673791254522,
+    "gpu_propia_pico_mib": "",
+    "gpu_driver_usada_antes_mib": "",
+    "gpu_driver_usada_despues_mib": ""
+  },
+  {
+    "etapa": "inicializacion_cuda",
+    "tiempo_ms": 6713.312659,
+    "cpu_ms": 6908.0,
+    "cpu_pct_un_nucleo": 102.90001897556489,
+    "rss_antes_mib": 213.234375,
+    "rss_despues_mib": 2114.6015625,
+    "t_inicio_ns": 1995673793201521,
+    "t_fin_ns": 1995680506514180,
+    "gpu_propia_pico_mib": "",
+    "gpu_driver_usada_antes_mib": "",
+    "gpu_driver_usada_despues_mib": "",
+    "mem_disponible_antes_mib": 3290.015625,
+    "mem_disponible_despues_mib": 1499.39453125
+  },
+  {
+    "etapa": "carga_modelos_y_pesos",
+    "tiempo_ms": 639.092327,
+    "cpu_ms": 635.9999999999992,
+    "cpu_pct_un_nucleo": 99.51613767379799,
+    "rss_antes_mib": 2114.6015625,
+    "rss_despues_mib": 2146.67578125,
+    "t_inicio_ns": 1995680507645702,
+    "t_fin_ns": 1995681146738029,
+    "gpu_propia_pico_mib": "",
+    "gpu_driver_usada_antes_mib": "",
+    "gpu_driver_usada_despues_mib": ""
+  }
+]
