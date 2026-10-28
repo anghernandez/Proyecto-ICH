@@ -6,14 +6,14 @@ from collections import defaultdict
 import onnx
 from onnx import helper
 
-ONNX_PATH = "mobilenetv2_fusion.onnx"
+ONNX_PATH = "modelos/mobilenetv2_fusion.onnx"
 
 PROFILE_PATH = (
-    "resultados_tensorrt/perfilado/perfil_capas.json"
+    "resultados/tensorrt/perfilado/perfil_capas.json"
 )
 
 OUTPUT_PATH = (
-    "resultados_tensorrt/perfilado/resumen_operaciones.csv"
+    "/tmp/resumen_operaciones_tensorrt_make.csv"
 )
 
 model = onnx.load(ONNX_PATH)
