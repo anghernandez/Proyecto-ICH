@@ -63,7 +63,10 @@ profile-baseline: prepare
 	$(PYTHON) $(SCRIPTS)/profile_torch_gpu.py
 
 cudnn: prepare
-	$(PYTHON) $(SCRIPTS)/benchmark_cudnn.py
+	@echo "========== cuDNN Benchmark OFF =========="
+	$(PYTHON) $(SCRIPTS)/benchmark_cudnn.py --benchmark 0
+	@echo "========== cuDNN Benchmark ON =========="
+	$(PYTHON) $(SCRIPTS)/benchmark_cudnn.py --benchmark 1
 
 fusion: prepare
 	$(PYTHON) $(SCRIPTS)/benchmark_fusion.py
@@ -73,7 +76,7 @@ profile-fusion: prepare
 
 export: prepare
 	$(PYTHON) $(SCRIPTS)/export_mobilenetv2_onnx.py
-	@mv -f mobilenetv2_fusion.onnx $(ONNX)
+	@echo "Modelo ONNX exportado correctamente."
 
 engine: export
 	$(TRTEXEC) \
