@@ -1,0 +1,176 @@
+&&&& RUNNING TensorRT.trtexec [TensorRT v8201] # /usr/src/tensorrt/bin/trtexec --loadEngine=mobilenetv2_fp32.engine --dumpProfile --exportProfile=resultados_tensorrt/perfilado/perfil_capas.json --separateProfileRun --warmUp=0 --duration=0 --iterations=120
+[10/28/2026-10:48:21] [I] === Model Options ===
+[10/28/2026-10:48:21] [I] Format: *
+[10/28/2026-10:48:21] [I] Model: 
+[10/28/2026-10:48:21] [I] Output:
+[10/28/2026-10:48:21] [I] === Build Options ===
+[10/28/2026-10:48:21] [I] Max batch: 1
+[10/28/2026-10:48:21] [I] Workspace: 16 MiB
+[10/28/2026-10:48:21] [I] minTiming: 1
+[10/28/2026-10:48:21] [I] avgTiming: 8
+[10/28/2026-10:48:21] [I] Precision: FP32
+[10/28/2026-10:48:21] [I] Calibration: 
+[10/28/2026-10:48:21] [I] Refit: Disabled
+[10/28/2026-10:48:21] [I] Sparsity: Disabled
+[10/28/2026-10:48:21] [I] Safe mode: Disabled
+[10/28/2026-10:48:21] [I] DirectIO mode: Disabled
+[10/28/2026-10:48:21] [I] Restricted mode: Disabled
+[10/28/2026-10:48:21] [I] Save engine: 
+[10/28/2026-10:48:21] [I] Load engine: mobilenetv2_fp32.engine
+[10/28/2026-10:48:21] [I] Profiling verbosity: 0
+[10/28/2026-10:48:21] [I] Tactic sources: Using default tactic sources
+[10/28/2026-10:48:21] [I] timingCacheMode: local
+[10/28/2026-10:48:21] [I] timingCacheFile: 
+[10/28/2026-10:48:21] [I] Input(s)s format: fp32:CHW
+[10/28/2026-10:48:21] [I] Output(s)s format: fp32:CHW
+[10/28/2026-10:48:21] [I] Input build shapes: model
+[10/28/2026-10:48:21] [I] Input calibration shapes: model
+[10/28/2026-10:48:21] [I] === System Options ===
+[10/28/2026-10:48:21] [I] Device: 0
+[10/28/2026-10:48:21] [I] DLACore: 
+[10/28/2026-10:48:21] [I] Plugins:
+[10/28/2026-10:48:21] [I] === Inference Options ===
+[10/28/2026-10:48:21] [I] Batch: 1
+[10/28/2026-10:48:21] [I] Input inference shapes: model
+[10/28/2026-10:48:21] [I] Iterations: 120
+[10/28/2026-10:48:21] [I] Duration: 0s (+ 0ms warm up)
+[10/28/2026-10:48:21] [I] Sleep time: 0ms
+[10/28/2026-10:48:21] [I] Idle time: 0ms
+[10/28/2026-10:48:21] [I] Streams: 1
+[10/28/2026-10:48:21] [I] ExposeDMA: Disabled
+[10/28/2026-10:48:21] [I] Data transfers: Enabled
+[10/28/2026-10:48:21] [I] Spin-wait: Disabled
+[10/28/2026-10:48:21] [I] Multithreading: Disabled
+[10/28/2026-10:48:21] [I] CUDA Graph: Disabled
+[10/28/2026-10:48:21] [I] Separate profiling: Enabled
+[10/28/2026-10:48:21] [I] Time Deserialize: Disabled
+[10/28/2026-10:48:21] [I] Time Refit: Disabled
+[10/28/2026-10:48:21] [I] Skip inference: Disabled
+[10/28/2026-10:48:21] [I] Inputs:
+[10/28/2026-10:48:21] [I] === Reporting Options ===
+[10/28/2026-10:48:21] [I] Verbose: Disabled
+[10/28/2026-10:48:21] [I] Averages: 10 inferences
+[10/28/2026-10:48:21] [I] Percentile: 99
+[10/28/2026-10:48:21] [I] Dump refittable layers:Disabled
+[10/28/2026-10:48:21] [I] Dump output: Disabled
+[10/28/2026-10:48:21] [I] Profile: Enabled
+[10/28/2026-10:48:21] [I] Export timing to JSON file: 
+[10/28/2026-10:48:21] [I] Export output to JSON file: 
+[10/28/2026-10:48:21] [I] Export profile to JSON file: resultados_tensorrt/perfilado/perfil_capas.json
+[10/28/2026-10:48:21] [I] 
+[10/28/2026-10:48:21] [I] === Device Information ===
+[10/28/2026-10:48:21] [I] Selected Device: NVIDIA Tegra X1
+[10/28/2026-10:48:21] [I] Compute Capability: 5.3
+[10/28/2026-10:48:21] [I] SMs: 1
+[10/28/2026-10:48:21] [I] Compute Clock Rate: 0.9216 GHz
+[10/28/2026-10:48:21] [I] Device Global Memory: 3964 MiB
+[10/28/2026-10:48:21] [I] Shared Memory per SM: 64 KiB
+[10/28/2026-10:48:21] [I] Memory Bus Width: 64 bits (ECC disabled)
+[10/28/2026-10:48:21] [I] Memory Clock Rate: 0.01275 GHz
+[10/28/2026-10:48:21] [I] 
+[10/28/2026-10:48:21] [I] TensorRT version: 8.2.1
+[10/28/2026-10:48:25] [I] [TRT] [MemUsageChange] Init CUDA: CPU +230, GPU +0, now: CPU 262, GPU 1735 (MiB)
+[10/28/2026-10:48:25] [I] [TRT] Loaded engine size: 13 MiB
+[10/28/2026-10:48:26] [I] [TRT] [MemUsageChange] Init cuBLAS/cuBLASLt: CPU +158, GPU +245, now: CPU 420, GPU 1980 (MiB)
+[10/28/2026-10:48:29] [I] [TRT] [MemUsageChange] Init cuDNN: CPU +241, GPU +349, now: CPU 661, GPU 2329 (MiB)
+[10/28/2026-10:48:29] [I] [TRT] [MemUsageChange] TensorRT-managed allocation in engine deserialization: CPU +0, GPU +13, now: CPU 0, GPU 13 (MiB)
+[10/28/2026-10:48:29] [I] Engine loaded in 7.62413 sec.
+[10/28/2026-10:48:29] [I] [TRT] [MemUsageChange] Init cuBLAS/cuBLASLt: CPU +0, GPU +0, now: CPU 647, GPU 2315 (MiB)
+[10/28/2026-10:48:29] [I] [TRT] [MemUsageChange] Init cuDNN: CPU +0, GPU +0, now: CPU 647, GPU 2315 (MiB)
+[10/28/2026-10:48:29] [I] [TRT] [MemUsageChange] TensorRT-managed allocation in IExecutionContext creation: CPU +0, GPU +14, now: CPU 0, GPU 27 (MiB)
+[10/28/2026-10:48:29] [I] Using random values for input input
+[10/28/2026-10:48:29] [I] Created input binding for input with dimensions 1x3x224x224
+[10/28/2026-10:48:29] [I] Using random values for output output
+[10/28/2026-10:48:29] [I] Created output binding for output with dimensions 1x1000
+[10/28/2026-10:48:29] [I] Starting inference
+[10/28/2026-10:48:35] [I] Warmup completed 0 queries over 0 ms
+[10/28/2026-10:48:35] [I] Timing trace has 120 queries over 5.18157 s
+[10/28/2026-10:48:35] [I] 
+[10/28/2026-10:48:35] [I] === Trace details ===
+[10/28/2026-10:48:35] [I] Trace averages of 10 runs:
+[10/28/2026-10:48:35] [I] Average on 10 runs - GPU latency: 370.78 ms - Host latency: 370.847 ms (end to end 370.856 ms, enqueue 360.84 ms)
+[10/28/2026-10:48:35] [I] Average on 10 runs - GPU latency: 13.3207 ms - Host latency: 13.3803 ms (end to end 13.3899 ms, enqueue 2.20686 ms)
+[10/28/2026-10:48:35] [I] Average on 10 runs - GPU latency: 13.3175 ms - Host latency: 13.3768 ms (end to end 13.3865 ms, enqueue 2.25903 ms)
+[10/28/2026-10:48:35] [I] Average on 10 runs - GPU latency: 13.3395 ms - Host latency: 13.3992 ms (end to end 13.4088 ms, enqueue 2.34202 ms)
+[10/28/2026-10:48:35] [I] Average on 10 runs - GPU latency: 13.3251 ms - Host latency: 13.3846 ms (end to end 13.3943 ms, enqueue 2.2604 ms)
+[10/28/2026-10:48:35] [I] Average on 10 runs - GPU latency: 13.3133 ms - Host latency: 13.373 ms (end to end 13.3826 ms, enqueue 2.25894 ms)
+[10/28/2026-10:48:35] [I] Average on 10 runs - GPU latency: 13.3254 ms - Host latency: 13.3852 ms (end to end 13.3948 ms, enqueue 2.30464 ms)
+[10/28/2026-10:48:35] [I] Average on 10 runs - GPU latency: 13.3107 ms - Host latency: 13.37 ms (end to end 13.3798 ms, enqueue 2.17021 ms)
+[10/28/2026-10:48:35] [I] Average on 10 runs - GPU latency: 13.3309 ms - Host latency: 13.3905 ms (end to end 13.4 ms, enqueue 2.11968 ms)
+[10/28/2026-10:48:35] [I] Average on 10 runs - GPU latency: 13.3139 ms - Host latency: 13.3732 ms (end to end 13.3828 ms, enqueue 2.0981 ms)
+[10/28/2026-10:48:35] [I] Average on 10 runs - GPU latency: 13.3228 ms - Host latency: 13.3823 ms (end to end 13.3919 ms, enqueue 2.18491 ms)
+[10/28/2026-10:48:35] [I] Average on 10 runs - GPU latency: 13.3136 ms - Host latency: 13.3731 ms (end to end 13.3824 ms, enqueue 2.16021 ms)
+[10/28/2026-10:48:35] [I] 
+[10/28/2026-10:48:35] [I] === Performance summary ===
+[10/28/2026-10:48:35] [I] Throughput: 23.159 qps
+[10/28/2026-10:48:35] [I] Latency: min = 13.3086 ms, max = 3588.17 ms, mean = 43.1695 ms, median = 13.3801 ms, percentile(99%) = 13.5115 ms
+[10/28/2026-10:48:35] [I] End-to-End Host Latency: min = 13.3184 ms, max = 3588.18 ms, mean = 43.1792 ms, median = 13.3899 ms, percentile(99%) = 13.5217 ms
+[10/28/2026-10:48:35] [I] Enqueue Time: min = 2.04785 ms, max = 3585.8 ms, mean = 32.1004 ms, median = 2.23145 ms, percentile(99%) = 2.87988 ms
+[10/28/2026-10:48:35] [I] H2D Latency: min = 0.0556641 ms, max = 0.120938 ms, mean = 0.0571378 ms, median = 0.0566406 ms, percentile(99%) = 0.0588379 ms
+[10/28/2026-10:48:35] [I] GPU Compute Time: min = 13.249 ms, max = 3588.05 ms, mean = 43.1094 ms, median = 13.3204 ms, percentile(99%) = 13.4517 ms
+[10/28/2026-10:48:35] [I] D2H Latency: min = 0.00195312 ms, max = 0.00512695 ms, mean = 0.00299886 ms, median = 0.00292969 ms, percentile(99%) = 0.00341797 ms
+[10/28/2026-10:48:35] [I] Total Host Walltime: 5.18157 s
+[10/28/2026-10:48:35] [I] Total GPU Compute Time: 5.17313 s
+[10/28/2026-10:48:35] [I] Explanations of the performance metrics are printed in the verbose logs.
+[10/28/2026-10:48:35] [I] 
+[10/28/2026-10:48:36] [I] 
+[10/28/2026-10:48:36] [I] === Profile (120 iterations ) ===
+[10/28/2026-10:48:36] [I]                           Layer   Time (ms)   Avg. Time (ms)   Time %
+[10/28/2026-10:48:36] [I]            Conv_0 + PWN(Clip_3)       49.85           0.4154      3.1
+[10/28/2026-10:48:36] [I]            Conv_4 + PWN(Clip_7)       60.03           0.5003      3.7
+[10/28/2026-10:48:36] [I]                          Conv_8       39.07           0.3256      2.4
+[10/28/2026-10:48:36] [I]           Conv_9 + PWN(Clip_12)       84.99           0.7083      5.3
+[10/28/2026-10:48:36] [I]          Conv_13 + PWN(Clip_16)      103.50           0.8625      6.5
+[10/28/2026-10:48:36] [I]                         Conv_17       20.67           0.1723      1.3
+[10/28/2026-10:48:36] [I]          Conv_18 + PWN(Clip_21)       44.26           0.3689      2.8
+[10/28/2026-10:48:36] [I]          Conv_22 + PWN(Clip_25)       62.64           0.5220      3.9
+[10/28/2026-10:48:36] [I]                Conv_26 + Add_27       30.97           0.2581      1.9
+[10/28/2026-10:48:36] [I]          Conv_28 + PWN(Clip_31)       43.24           0.3603      2.7
+[10/28/2026-10:48:36] [I]          Conv_32 + PWN(Clip_35)       45.26           0.3772      2.8
+[10/28/2026-10:48:36] [I]                         Conv_36       12.08           0.1006      0.8
+[10/28/2026-10:48:36] [I]          Conv_37 + PWN(Clip_40)       16.27           0.1356      1.0
+[10/28/2026-10:48:36] [I]          Conv_41 + PWN(Clip_44)       24.81           0.2068      1.5
+[10/28/2026-10:48:36] [I]                Conv_45 + Add_46       14.68           0.1224      0.9
+[10/28/2026-10:48:36] [I]          Conv_47 + PWN(Clip_50)       15.71           0.1309      1.0
+[10/28/2026-10:48:36] [I]          Conv_51 + PWN(Clip_54)       24.78           0.2065      1.5
+[10/28/2026-10:48:36] [I]                Conv_55 + Add_56       14.74           0.1228      0.9
+[10/28/2026-10:48:36] [I]          Conv_57 + PWN(Clip_60)       15.69           0.1307      1.0
+[10/28/2026-10:48:36] [I]          Conv_61 + PWN(Clip_64)       17.13           0.1427      1.1
+[10/28/2026-10:48:36] [I]                         Conv_65        5.95           0.0496      0.4
+[10/28/2026-10:48:36] [I]          Conv_66 + PWN(Clip_69)       13.38           0.1115      0.8
+[10/28/2026-10:48:36] [I]          Conv_70 + PWN(Clip_73)       23.80           0.1983      1.5
+[10/28/2026-10:48:36] [I]                Conv_74 + Add_75       11.85           0.0988      0.7
+[10/28/2026-10:48:36] [I]          Conv_76 + PWN(Clip_79)       12.93           0.1077      0.8
+[10/28/2026-10:48:36] [I]          Conv_80 + PWN(Clip_83)       23.82           0.1985      1.5
+[10/28/2026-10:48:36] [I]                Conv_84 + Add_85       11.93           0.0994      0.7
+[10/28/2026-10:48:36] [I]          Conv_86 + PWN(Clip_89)       12.88           0.1074      0.8
+[10/28/2026-10:48:36] [I]          Conv_90 + PWN(Clip_93)       23.80           0.1984      1.5
+[10/28/2026-10:48:36] [I]                Conv_94 + Add_95       11.93           0.0995      0.7
+[10/28/2026-10:48:36] [I]          Conv_96 + PWN(Clip_99)       12.89           0.1074      0.8
+[10/28/2026-10:48:36] [I]        Conv_100 + PWN(Clip_103)       23.80           0.1983      1.5
+[10/28/2026-10:48:36] [I]                        Conv_104       16.78           0.1399      1.0
+[10/28/2026-10:48:36] [I]        Conv_105 + PWN(Clip_108)       24.33           0.2028      1.5
+[10/28/2026-10:48:36] [I]        Conv_109 + PWN(Clip_112)       35.26           0.2938      2.2
+[10/28/2026-10:48:36] [I]              Conv_113 + Add_114       24.21           0.2018      1.5
+[10/28/2026-10:48:36] [I]        Conv_115 + PWN(Clip_118)       23.33           0.1945      1.5
+[10/28/2026-10:48:36] [I]        Conv_119 + PWN(Clip_122)       35.26           0.2938      2.2
+[10/28/2026-10:48:36] [I]              Conv_123 + Add_124       24.15           0.2013      1.5
+[10/28/2026-10:48:36] [I]        Conv_125 + PWN(Clip_128)       23.29           0.1941      1.5
+[10/28/2026-10:48:36] [I]        Conv_129 + PWN(Clip_132)       27.52           0.2294      1.7
+[10/28/2026-10:48:36] [I]                        Conv_133       15.88           0.1323      1.0
+[10/28/2026-10:48:36] [I]        Conv_134 + PWN(Clip_137)       29.45           0.2454      1.8
+[10/28/2026-10:48:36] [I]        Conv_138 + PWN(Clip_141)       37.12           0.3093      2.3
+[10/28/2026-10:48:36] [I]              Conv_142 + Add_143       30.15           0.2513      1.9
+[10/28/2026-10:48:36] [I]        Conv_144 + PWN(Clip_147)       28.92           0.2410      1.8
+[10/28/2026-10:48:36] [I]        Conv_148 + PWN(Clip_151)       36.94           0.3079      2.3
+[10/28/2026-10:48:36] [I]              Conv_152 + Add_153       30.12           0.2510      1.9
+[10/28/2026-10:48:36] [I]        Conv_154 + PWN(Clip_157)       28.93           0.2411      1.8
+[10/28/2026-10:48:36] [I]        Conv_158 + PWN(Clip_161)       37.01           0.3084      2.3
+[10/28/2026-10:48:36] [I]                        Conv_162       42.53           0.3544      2.7
+[10/28/2026-10:48:36] [I]        Conv_163 + PWN(Clip_166)       69.85           0.5821      4.4
+[10/28/2026-10:48:36] [I]           GlobalAveragePool_167        5.39           0.0449      0.3
+[10/28/2026-10:48:36] [I]                        Gemm_169       47.29           0.3941      2.9
+[10/28/2026-10:48:36] [I]  (Unnamed Layer* 101) [Shuffle]        0.07           0.0006      0.0
+[10/28/2026-10:48:36] [I]                           Total     1603.15          13.3596    100.0
+[10/28/2026-10:48:36] [I] 
+&&&& PASSED TensorRT.trtexec [TensorRT v8201] # /usr/src/tensorrt/bin/trtexec --loadEngine=mobilenetv2_fp32.engine --dumpProfile --exportProfile=resultados_tensorrt/perfilado/perfil_capas.json --separateProfileRun --warmUp=0 --duration=0 --iterations=120
