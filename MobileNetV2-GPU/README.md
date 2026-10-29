@@ -581,3 +581,10 @@ make engine
 
 **Nota:** antes de utilizar estos objetivos, deben verificarse las rutas de los archivos en los scripts originales, ya que fueron desarrollados antes de reorganizar el proyecto en las carpetas `scripts/`, `modelos/` y `resultados/`.
 
+## Declaración de uso IA
+Durante el desarrollo del proyecto se utilizaron herramientas de inteligencia artificial generativa como apoyo en tareas de consulta.
+
+- https://chatgpt.com/share/6ae29999-41d0-83e8-9681-f97651d05a75
+- https://chatgpt.com/share/6ae29adf-719c-83e8-b5f0-7bd021e52b8a
+
+
