@@ -1,0 +1,58 @@
+[
+  { "count" : 120 }
+, { "name" : "Conv_0 + PWN(Clip_3)", "timeMs" : 49.8475, "averageMs" : 0.415396, "percentage" : 3.10935 }
+, { "name" : "Conv_4 + PWN(Clip_7)", "timeMs" : 60.0343, "averageMs" : 0.500286, "percentage" : 3.74477 }
+, { "name" : "Conv_8", "timeMs" : 39.0681, "averageMs" : 0.325567, "percentage" : 2.43696 }
+, { "name" : "Conv_9 + PWN(Clip_12)", "timeMs" : 84.9912, "averageMs" : 0.70826, "percentage" : 5.30151 }
+, { "name" : "Conv_13 + PWN(Clip_16)", "timeMs" : 103.499, "averageMs" : 0.86249, "percentage" : 6.45596 }
+, { "name" : "Conv_17", "timeMs" : 20.6719, "averageMs" : 0.172266, "percentage" : 1.28945 }
+, { "name" : "Conv_18 + PWN(Clip_21)", "timeMs" : 44.2634, "averageMs" : 0.368861, "percentage" : 2.76102 }
+, { "name" : "Conv_22 + PWN(Clip_25)", "timeMs" : 62.6416, "averageMs" : 0.522013, "percentage" : 3.90741 }
+, { "name" : "Conv_26 + Add_27", "timeMs" : 30.975, "averageMs" : 0.258125, "percentage" : 1.93213 }
+, { "name" : "Conv_28 + PWN(Clip_31)", "timeMs" : 43.2365, "averageMs" : 0.360304, "percentage" : 2.69697 }
+, { "name" : "Conv_32 + PWN(Clip_35)", "timeMs" : 45.2639, "averageMs" : 0.377199, "percentage" : 2.82343 }
+, { "name" : "Conv_36", "timeMs" : 12.0771, "averageMs" : 0.100643, "percentage" : 0.753337 }
+, { "name" : "Conv_37 + PWN(Clip_40)", "timeMs" : 16.268, "averageMs" : 0.135566, "percentage" : 1.01475 }
+, { "name" : "Conv_41 + PWN(Clip_44)", "timeMs" : 24.8143, "averageMs" : 0.206786, "percentage" : 1.54785 }
+, { "name" : "Conv_45 + Add_46", "timeMs" : 14.683, "averageMs" : 0.122358, "percentage" : 0.915883 }
+, { "name" : "Conv_47 + PWN(Clip_50)", "timeMs" : 15.7061, "averageMs" : 0.130884, "percentage" : 0.979702 }
+, { "name" : "Conv_51 + PWN(Clip_54)", "timeMs" : 24.7784, "averageMs" : 0.206487, "percentage" : 1.54561 }
+, { "name" : "Conv_55 + Add_56", "timeMs" : 14.7366, "averageMs" : 0.122805, "percentage" : 0.919225 }
+, { "name" : "Conv_57 + PWN(Clip_60)", "timeMs" : 15.6883, "averageMs" : 0.130736, "percentage" : 0.978594 }
+, { "name" : "Conv_61 + PWN(Clip_64)", "timeMs" : 17.1262, "averageMs" : 0.142718, "percentage" : 1.06828 }
+, { "name" : "Conv_65", "timeMs" : 5.94693, "averageMs" : 0.0495577, "percentage" : 0.370952 }
+, { "name" : "Conv_66 + PWN(Clip_69)", "timeMs" : 13.3781, "averageMs" : 0.111484, "percentage" : 0.834487 }
+, { "name" : "Conv_70 + PWN(Clip_73)", "timeMs" : 23.8011, "averageMs" : 0.198343, "percentage" : 1.48465 }
+, { "name" : "Conv_74 + Add_75", "timeMs" : 11.8509, "averageMs" : 0.0987575, "percentage" : 0.739225 }
+, { "name" : "Conv_76 + PWN(Clip_79)", "timeMs" : 12.9293, "averageMs" : 0.107744, "percentage" : 0.806495 }
+, { "name" : "Conv_80 + PWN(Clip_83)", "timeMs" : 23.8181, "averageMs" : 0.198484, "percentage" : 1.4857 }
+, { "name" : "Conv_84 + Add_85", "timeMs" : 11.9336, "averageMs" : 0.0994466, "percentage" : 0.744384 }
+, { "name" : "Conv_86 + PWN(Clip_89)", "timeMs" : 12.8826, "averageMs" : 0.107355, "percentage" : 0.80358 }
+, { "name" : "Conv_90 + PWN(Clip_93)", "timeMs" : 23.8048, "averageMs" : 0.198373, "percentage" : 1.48488 }
+, { "name" : "Conv_94 + Add_95", "timeMs" : 11.934, "averageMs" : 0.0994501, "percentage" : 0.74441 }
+, { "name" : "Conv_96 + PWN(Clip_99)", "timeMs" : 12.8875, "averageMs" : 0.107395, "percentage" : 0.803883 }
+, { "name" : "Conv_100 + PWN(Clip_103)", "timeMs" : 23.8017, "averageMs" : 0.198347, "percentage" : 1.48468 }
+, { "name" : "Conv_104", "timeMs" : 16.784, "averageMs" : 0.139866, "percentage" : 1.04694 }
+, { "name" : "Conv_105 + PWN(Clip_108)", "timeMs" : 24.3349, "averageMs" : 0.202791, "percentage" : 1.51794 }
+, { "name" : "Conv_109 + PWN(Clip_112)", "timeMs" : 35.2616, "averageMs" : 0.293847, "percentage" : 2.19952 }
+, { "name" : "Conv_113 + Add_114", "timeMs" : 24.2134, "averageMs" : 0.201778, "percentage" : 1.51036 }
+, { "name" : "Conv_115 + PWN(Clip_118)", "timeMs" : 23.3343, "averageMs" : 0.194452, "percentage" : 1.45553 }
+, { "name" : "Conv_119 + PWN(Clip_122)", "timeMs" : 35.2604, "averageMs" : 0.293837, "percentage" : 2.19945 }
+, { "name" : "Conv_123 + Add_124", "timeMs" : 24.1534, "averageMs" : 0.201279, "percentage" : 1.50662 }
+, { "name" : "Conv_125 + PWN(Clip_128)", "timeMs" : 23.2884, "averageMs" : 0.19407, "percentage" : 1.45266 }
+, { "name" : "Conv_129 + PWN(Clip_132)", "timeMs" : 27.5245, "averageMs" : 0.229371, "percentage" : 1.7169 }
+, { "name" : "Conv_133", "timeMs" : 15.8756, "averageMs" : 0.132297, "percentage" : 0.990277 }
+, { "name" : "Conv_134 + PWN(Clip_137)", "timeMs" : 29.4482, "averageMs" : 0.245401, "percentage" : 1.83689 }
+, { "name" : "Conv_138 + PWN(Clip_141)", "timeMs" : 37.1168, "averageMs" : 0.309307, "percentage" : 2.31524 }
+, { "name" : "Conv_142 + Add_143", "timeMs" : 30.1517, "averageMs" : 0.251264, "percentage" : 1.88078 }
+, { "name" : "Conv_144 + PWN(Clip_147)", "timeMs" : 28.9231, "averageMs" : 0.241026, "percentage" : 1.80414 }
+, { "name" : "Conv_148 + PWN(Clip_151)", "timeMs" : 36.9433, "averageMs" : 0.307861, "percentage" : 2.30442 }
+, { "name" : "Conv_152 + Add_153", "timeMs" : 30.1234, "averageMs" : 0.251028, "percentage" : 1.87901 }
+, { "name" : "Conv_154 + PWN(Clip_157)", "timeMs" : 28.9343, "averageMs" : 0.241119, "percentage" : 1.80484 }
+, { "name" : "Conv_158 + PWN(Clip_161)", "timeMs" : 37.009, "averageMs" : 0.308408, "percentage" : 2.30851 }
+, { "name" : "Conv_162", "timeMs" : 42.5313, "averageMs" : 0.354428, "percentage" : 2.65298 }
+, { "name" : "Conv_163 + PWN(Clip_166)", "timeMs" : 69.8479, "averageMs" : 0.582066, "percentage" : 4.35691 }
+, { "name" : "GlobalAveragePool_167", "timeMs" : 5.38827, "averageMs" : 0.0449023, "percentage" : 0.336105 }
+, { "name" : "Gemm_169", "timeMs" : 47.2905, "averageMs" : 0.394087, "percentage" : 2.94985 }
+, { "name" : "(Unnamed Layer* 101) [Shuffle]", "timeMs" : 0.074011, "averageMs" : 0.000616758, "percentage" : 0.0046166 }
+]
