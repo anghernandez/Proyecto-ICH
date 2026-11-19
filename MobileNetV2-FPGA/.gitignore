@@ -1,0 +1,19 @@
+# Vitis HLS - archivos generados
+/HLS/*/build/
+/HLS/*/.Xil/
+/HLS/*/*.log
+/HLS/*/*.jou
+
+# Compilacion y enlace general
+/HLS/build.hw/
+/HLS/tmp.hw/
+/HLS/package.hw/
+/HLS/_x/
+/HLS/.Xil/
+
+# Reportes y registros
+/HLS/*.log
+/HLS/*.jou
+/HLS/*.run_summary
+/HLS/*.link_summary
+/HLS/*.package_summary
