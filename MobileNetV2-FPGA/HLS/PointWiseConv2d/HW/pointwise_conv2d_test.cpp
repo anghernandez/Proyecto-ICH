@@ -278,7 +278,38 @@ int main()
     );
 
     // ---------------------------------------------------------
-    // Test 2 (LOS ELIMINE)
+    // Test 2
+    // Bloques incompletos y batch 2, sin bias.
+    // 10x10 = 100 posiciones -> bloques de 64 + 36.
+    // 24 canales de salida -> grupos de 16 + 8.
+    // ---------------------------------------------------------
+
+    all_tests_passed &= run_test(
+        "Test 2 - Partial tiles, batch 2, no bias",
+        2,      // batch_size
+        20,     // input_channels
+        10,     // input_height
+        10,     // input_width
+        24,     // output_channels
+        false   // use_bias
+    );
+
+    // ---------------------------------------------------------
+    // Test 3
+    // Capa real de MobileNetV2 (proyección 144 -> 24, 14x14).
+    // Tamaño moderado para que la co-simulación sea rápida.
+    // ---------------------------------------------------------
+
+    all_tests_passed &= run_test(
+        "Test 3 - MobileNetV2 projection 144x14x14 -> 24",
+        1,      // batch_size
+        144,    // input_channels
+        14,     // input_height
+        14,     // input_width
+        24,     // output_channels
+        false   // use_bias
+    );
+
     std::cout
         << "\nOverall result: "
         << (all_tests_passed ? "PASS" : "FAIL")
