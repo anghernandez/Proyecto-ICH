@@ -15,3 +15,15 @@ __pycache__/
 
 # Archivos temporales
 *.log
+
+# MobileNetV2-FPGA: archivos generados por Vitis/Vivado
+/MobileNetV2-FPGA/HLS/.ipcache/
+/MobileNetV2-FPGA/HLS/tmp.*/
+/MobileNetV2-FPGA/HLS/build.*/
+/MobileNetV2-FPGA/HLS/package.*/
+/MobileNetV2-FPGA/HLS/**/build/
+/MobileNetV2-FPGA/HLS/**/integration/xo/
+/MobileNetV2-FPGA/HLS/**/*.xo
+/MobileNetV2-FPGA/HLS/**/.Xil/
+/MobileNetV2-FPGA/HLS/PointwiseConv2d/
+/MobileNetV2-FPGA/HLS/PointwiseConv2d/

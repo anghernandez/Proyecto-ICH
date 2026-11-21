@@ -1,0 +1,2 @@
+mode,image,warmup,repeats,mean_ms,median_ms,std_ms,p95_ms,min_ms,max_ms
+sequential,test_images/test_1.jpeg,8,120,3113.976850,3113.833045,2.436228,3117.386317,3108.296251,3125.352638

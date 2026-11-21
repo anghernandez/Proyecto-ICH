@@ -1,0 +1,347 @@
+Copyright 1986-2022 Xilinx, Inc. All Rights Reserved. Copyright 2022-2024 Advanced Micro Devices, Inc. All Rights Reserved.
+---------------------------------------------------------------------------------------------------------------------------------------------
+| Tool Version : Vivado v.2024.2 (lin64) Build 5239630 Fri Nov 08 22:34:34 MST 2024
+| Date         : Fri Nov 20 14:10:28 2026
+| Host         : probook running 64-bit Ubuntu 22.04.5 LTS
+| Command      : report_utilization -file utilizacion_total_kv260.rpt
+| Design       : system_wrapper
+| Device       : xck26-sfvc784-2LV-c
+| Speed File   : -2LV
+| Design State : Routed
+---------------------------------------------------------------------------------------------------------------------------------------------
+
+Utilization Design Information
+
+Table of Contents
+-----------------
+1. CLB Logic
+1.1 Summary of Registers by Type
+2. CLB Logic Distribution
+3. BLOCKRAM
+4. ARITHMETIC
+5. I/O
+6. CLOCK
+7. ADVANCED
+8. CONFIGURATION
+9. Primitives
+10. Black Boxes
+11. Instantiated Netlists
+
+1. CLB Logic
+------------
+
++----------------------------+-------+-------+------------+-----------+-------+
+|          Site Type         |  Used | Fixed | Prohibited | Available | Util% |
++----------------------------+-------+-------+------------+-----------+-------+
+| CLB LUTs                   | 74653 |     0 |          0 |    117120 | 63.74 |
+|   LUT as Logic             | 60717 |     0 |          0 |    117120 | 51.84 |
+|   LUT as Memory            | 13936 |     0 |          0 |     57600 | 24.19 |
+|     LUT as Distributed RAM |  3952 |     0 |            |           |       |
+|     LUT as Shift Register  |  9984 |     0 |            |           |       |
+| CLB Registers              | 96956 |     0 |          0 |    234240 | 41.39 |
+|   Register as Flip Flop    | 96956 |     0 |          0 |    234240 | 41.39 |
+|   Register as Latch        |     0 |     0 |          0 |    234240 |  0.00 |
+| CARRY8                     |  2985 |     0 |          0 |     14640 | 20.39 |
+| F7 Muxes                   |  3075 |     0 |          0 |     58560 |  5.25 |
+| F8 Muxes                   |    34 |     0 |          0 |     29280 |  0.12 |
+| F9 Muxes                   |     0 |     0 |          0 |     14640 |  0.00 |
++----------------------------+-------+-------+------------+-----------+-------+
+* Warning! LUT value is adjusted to account for LUT combining.
+
+
+1.1 Summary of Registers by Type
+--------------------------------
+
++-------+--------------+-------------+--------------+
+| Total | Clock Enable | Synchronous | Asynchronous |
++-------+--------------+-------------+--------------+
+| 0     |            _ |           - |            - |
+| 0     |            _ |           - |          Set |
+| 0     |            _ |           - |        Reset |
+| 0     |            _ |         Set |            - |
+| 0     |            _ |       Reset |            - |
+| 0     |          Yes |           - |            - |
+| 646   |          Yes |           - |          Set |
+| 822   |          Yes |           - |        Reset |
+| 987   |          Yes |         Set |            - |
+| 94501 |          Yes |       Reset |            - |
++-------+--------------+-------------+--------------+
+
+
+2. CLB Logic Distribution
+-------------------------
+
++--------------------------------------------+-------+-------+------------+-----------+-------+
+|                  Site Type                 |  Used | Fixed | Prohibited | Available | Util% |
++--------------------------------------------+-------+-------+------------+-----------+-------+
+| CLB                                        | 14159 |     0 |          0 |     14640 | 96.71 |
+|   CLBL                                     |  7151 |     0 |            |           |       |
+|   CLBM                                     |  7008 |     0 |            |           |       |
+| LUT as Logic                               | 60717 |     0 |          0 |    117120 | 51.84 |
+|   using O5 output only                     |  1341 |       |            |           |       |
+|   using O6 output only                     | 41652 |       |            |           |       |
+|   using O5 and O6                          | 17724 |       |            |           |       |
+| LUT as Memory                              | 13936 |     0 |          0 |     57600 | 24.19 |
+|   LUT as Distributed RAM                   |  3952 |     0 |            |           |       |
+|     using O5 output only                   |     0 |       |            |           |       |
+|     using O6 output only                   |  1028 |       |            |           |       |
+|     using O5 and O6                        |  2924 |       |            |           |       |
+|   LUT as Shift Register                    |  9984 |     0 |            |           |       |
+|     using O5 output only                   |     0 |       |            |           |       |
+|     using O6 output only                   |  9516 |       |            |           |       |
+|     using O5 and O6                        |   468 |       |            |           |       |
+| CLB Registers                              | 96956 |     0 |          0 |    234240 | 41.39 |
+|   Register driven from within the CLB      | 53139 |       |            |           |       |
+|   Register driven from outside the CLB     | 43817 |       |            |           |       |
+|     LUT in front of the register is unused | 25248 |       |            |           |       |
+|     LUT in front of the register is used   | 18569 |       |            |           |       |
+| Unique Control Sets                        |  4066 |       |          0 |     29280 | 13.89 |
++--------------------------------------------+-------+-------+------------+-----------+-------+
+* * Note: Available Control Sets calculated as Slices * 2, Review the Control Sets Report for more information regarding control sets.
+
+
+3. BLOCKRAM
+-----------
+
++-------------------+------+-------+------------+-----------+-------+
+|     Site Type     | Used | Fixed | Prohibited | Available | Util% |
++-------------------+------+-------+------------+-----------+-------+
+| Block RAM Tile    | 88.5 |     0 |          0 |       144 | 61.46 |
+|   RAMB36/FIFO*    |   28 |     0 |          0 |       144 | 19.44 |
+|     RAMB36E2 only |   28 |       |            |           |       |
+|   RAMB18          |  121 |     0 |          0 |       288 | 42.01 |
+|     RAMB18E2 only |  121 |       |            |           |       |
+| URAM              |    0 |     0 |          0 |        64 |  0.00 |
++-------------------+------+-------+------------+-----------+-------+
+* Note: Each Block RAM Tile only has one FIFO logic available and therefore can accommodate only one FIFO36E2 or one FIFO18E2. However, if a FIFO18E2 occupies a Block RAM Tile, that tile can still accommodate a RAMB18E2
+
+
+4. ARITHMETIC
+-------------
+
++----------------+------+-------+------------+-----------+-------+
+|    Site Type   | Used | Fixed | Prohibited | Available | Util% |
++----------------+------+-------+------------+-----------+-------+
+| DSPs           |  242 |     0 |          0 |      1248 | 19.39 |
+|   DSP48E2 only |  242 |       |            |           |       |
++----------------+------+-------+------------+-----------+-------+
+
+
+5. I/O
+------
+
++------------------+------+-------+------------+-----------+-------+
+|     Site Type    | Used | Fixed | Prohibited | Available | Util% |
++------------------+------+-------+------------+-----------+-------+
+| Bonded IOB       |    0 |     0 |          0 |       189 |  0.00 |
+| HPIOB_M          |    0 |     0 |          0 |        58 |  0.00 |
+| HPIOB_S          |    0 |     0 |          0 |        58 |  0.00 |
+| HDIOB_M          |    0 |     0 |          0 |        35 |  0.00 |
+| HDIOB_S          |    0 |     0 |          0 |        35 |  0.00 |
+| HPIOB_SNGL       |    0 |     0 |          0 |         3 |  0.00 |
+| HPIOBDIFFINBUF   |    0 |     0 |          0 |        82 |  0.00 |
+| HPIOBDIFFOUTBUF  |    0 |     0 |          0 |        82 |  0.00 |
+| HDIOBDIFFINBUF   |    0 |     0 |          0 |        35 |  0.00 |
+| BITSLICE_CONTROL |    0 |     0 |          0 |        32 |  0.00 |
+| BITSLICE_RX_TX   |    0 |     0 |          0 |      1248 |  0.00 |
+| BITSLICE_TX      |    0 |     0 |          0 |        32 |  0.00 |
+| RIU_OR           |    0 |     0 |          0 |        16 |  0.00 |
++------------------+------+-------+------------+-----------+-------+
+
+
+6. CLOCK
+--------
+
++------------+------+-------+------------+-----------+-------+
+|  Site Type | Used | Fixed | Prohibited | Available | Util% |
++------------+------+-------+------------+-----------+-------+
+| BUFGCE     |    6 |     0 |          0 |       112 |  5.36 |
+| BUFGCE_DIV |    0 |     0 |          0 |        16 |  0.00 |
+| BUFG_GT    |    0 |     0 |          0 |        96 |  0.00 |
+| BUFG_PS    |    1 |     0 |          0 |        96 |  1.04 |
+| BUFGCTRL*  |    0 |     0 |          0 |        32 |  0.00 |
+| PLL        |    0 |     0 |          0 |         8 |  0.00 |
+| MMCM       |    1 |     0 |          0 |         4 | 25.00 |
++------------+------+-------+------------+-----------+-------+
+* Note: Each used BUFGCTRL counts as two GLOBAL CLOCK BUFFERs. This table does not include global clocking resources, only buffer cell usage. See the Clock Utilization Report (report_clock_utilization) for detailed accounting of global clocking resource availability.
+
+
+7. ADVANCED
+-----------
+
++-----------------+------+-------+------------+-----------+--------+
+|    Site Type    | Used | Fixed | Prohibited | Available |  Util% |
++-----------------+------+-------+------------+-----------+--------+
+| GTHE4_CHANNEL   |    0 |     0 |          0 |         4 |   0.00 |
+| GTHE4_COMMON    |    0 |     0 |          0 |         1 |   0.00 |
+| OBUFDS_GTE4     |    0 |     0 |          0 |         2 |   0.00 |
+| OBUFDS_GTE4_ADV |    0 |     0 |          0 |         2 |   0.00 |
+| PCIE40E4        |    0 |     0 |          0 |         2 |   0.00 |
+| PS8             |    1 |     0 |          0 |         1 | 100.00 |
+| SYSMONE4        |    0 |     0 |          0 |         1 |   0.00 |
+| VCU             |    0 |     0 |          0 |         1 |   0.00 |
++-----------------+------+-------+------------+-----------+--------+
+
+
+8. CONFIGURATION
+----------------
+
++-------------+------+-------+------------+-----------+-------+
+|  Site Type  | Used | Fixed | Prohibited | Available | Util% |
++-------------+------+-------+------------+-----------+-------+
+| BSCANE2     |    0 |     0 |          0 |         4 |  0.00 |
+| DNA_PORTE2  |    0 |     0 |          0 |         1 |  0.00 |
+| EFUSE_USR   |    0 |     0 |          0 |         1 |  0.00 |
+| FRAME_ECCE4 |    0 |     0 |          0 |         1 |  0.00 |
+| ICAPE3      |    0 |     0 |          0 |         2 |  0.00 |
+| MASTER_JTAG |    0 |     0 |          0 |         1 |  0.00 |
+| STARTUPE3   |    0 |     0 |          0 |         1 |  0.00 |
++-------------+------+-------+------------+-----------+-------+
+
+
+9. Primitives
+-------------
+
++------------+-------+---------------------+
+|  Ref Name  |  Used | Functional Category |
++------------+-------+---------------------+
+| FDRE       | 94501 |            Register |
+| LUT3       | 23497 |                 CLB |
+| LUT4       | 15382 |                 CLB |
+| LUT6       | 14166 |                 CLB |
+| LUT2       | 13313 |                 CLB |
+| LUT5       |  9333 |                 CLB |
+| SRLC32E    |  8915 |                 CLB |
+| RAMD32     |  4672 |                 CLB |
+| MUXF7      |  3075 |                 CLB |
+| CARRY8     |  2985 |                 CLB |
+| LUT1       |  2750 |                 CLB |
+| SRL16E     |  1537 |                 CLB |
+| RAMS32     |  1180 |                 CLB |
+| RAMD64E    |  1024 |                 CLB |
+| FDSE       |   987 |            Register |
+| FDCE       |   822 |            Register |
+| FDPE       |   646 |            Register |
+| DSP48E2    |   242 |          Arithmetic |
+| RAMB18E2   |   121 |            BLOCKRAM |
+| MUXF8      |    34 |                 CLB |
+| RAMB36E2   |    28 |            BLOCKRAM |
+| BUFGCE     |     6 |               Clock |
+| PS8        |     1 |            Advanced |
+| MMCME4_ADV |     1 |               Clock |
+| BUFG_PS    |     1 |               Clock |
++------------+-------+---------------------+
+
+
+10. Black Boxes
+---------------
+
++----------+------+
+| Ref Name | Used |
++----------+------+
+
+
+11. Instantiated Netlists
+-------------------------
+
++------------------------------------------------------------------------+------+
+|                                Ref Name                                | Used |
++------------------------------------------------------------------------+------+
+| system_zynq_ultra_ps_e_0_0                                             |    1 |
+| system_tanh_forward_1_0                                                |    1 |
+| system_relu6_forward_1_0                                               |    1 |
+| system_ps8_0_axi_periph_upgraded_ipi_imp_xbar_0                        |    1 |
+| system_ps8_0_axi_periph_imp_m07_regslice_0                             |    1 |
+| system_ps8_0_axi_periph_imp_m06_regslice_0                             |    1 |
+| system_ps8_0_axi_periph_imp_m05_regslice_0                             |    1 |
+| system_ps8_0_axi_periph_imp_m04_regslice_0                             |    1 |
+| system_ps8_0_axi_periph_imp_m03_regslice_0                             |    1 |
+| system_ps8_0_axi_periph_imp_m02_regslice_0                             |    1 |
+| system_ps8_0_axi_periph_imp_m01_regslice_0                             |    1 |
+| system_ps8_0_axi_periph_imp_auto_pc_0                                  |    1 |
+| system_proc_sys_reset_2_0                                              |    1 |
+| system_pointwise_conv2d_forward_1_0                                    |    1 |
+| system_linear_forward_1_0                                              |    1 |
+| system_layer_add_forward_1_0                                           |    1 |
+| system_depthwise_conv2d_forward_1_0                                    |    1 |
+| system_conv2d_forward_1_0                                              |    1 |
+| system_clk_wiz_0_0                                                     |    1 |
+| system_batchnorm2d_forward_1_0                                         |    1 |
+| system_axi_intc_0_0                                                    |    1 |
+| system_axi_ic_zynq_ultra_ps_e_0_S_AXI_HP3_FPD_upgraded_ipi_imp_xbar_0  |    1 |
+| system_axi_ic_zynq_ultra_ps_e_0_S_AXI_HP3_FPD_imp_s14_regslice_0       |    1 |
+| system_axi_ic_zynq_ultra_ps_e_0_S_AXI_HP3_FPD_imp_s13_regslice_0       |    1 |
+| system_axi_ic_zynq_ultra_ps_e_0_S_AXI_HP3_FPD_imp_s12_regslice_0       |    1 |
+| system_axi_ic_zynq_ultra_ps_e_0_S_AXI_HP3_FPD_imp_s11_regslice_0       |    1 |
+| system_axi_ic_zynq_ultra_ps_e_0_S_AXI_HP3_FPD_imp_s10_regslice_0       |    1 |
+| system_axi_ic_zynq_ultra_ps_e_0_S_AXI_HP3_FPD_imp_s09_regslice_0       |    1 |
+| system_axi_ic_zynq_ultra_ps_e_0_S_AXI_HP3_FPD_imp_s08_regslice_0       |    1 |
+| system_axi_ic_zynq_ultra_ps_e_0_S_AXI_HP3_FPD_imp_s07_regslice_0       |    1 |
+| system_axi_ic_zynq_ultra_ps_e_0_S_AXI_HP3_FPD_imp_s06_regslice_0       |    1 |
+| system_axi_ic_zynq_ultra_ps_e_0_S_AXI_HP3_FPD_imp_s05_regslice_0       |    1 |
+| system_axi_ic_zynq_ultra_ps_e_0_S_AXI_HP3_FPD_imp_s04_regslice_0       |    1 |
+| system_axi_ic_zynq_ultra_ps_e_0_S_AXI_HP3_FPD_imp_s03_regslice_0       |    1 |
+| system_axi_ic_zynq_ultra_ps_e_0_S_AXI_HP3_FPD_imp_s02_regslice_0       |    1 |
+| system_axi_ic_zynq_ultra_ps_e_0_S_AXI_HP3_FPD_imp_s01_regslice_0       |    1 |
+| system_axi_ic_zynq_ultra_ps_e_0_S_AXI_HP3_FPD_imp_s00_regslice_0       |    1 |
+| system_axi_ic_zynq_ultra_ps_e_0_S_AXI_HP3_FPD_imp_m00_regslice_0       |    1 |
+| system_axi_ic_zynq_ultra_ps_e_0_S_AXI_HP3_FPD_imp_m00_data_fifo_0      |    1 |
+| system_axi_ic_zynq_ultra_ps_e_0_S_AXI_HP3_FPD_imp_auto_us_df_9         |    1 |
+| system_axi_ic_zynq_ultra_ps_e_0_S_AXI_HP3_FPD_imp_auto_us_df_8         |    1 |
+| system_axi_ic_zynq_ultra_ps_e_0_S_AXI_HP3_FPD_imp_auto_us_df_7         |    1 |
+| system_axi_ic_zynq_ultra_ps_e_0_S_AXI_HP3_FPD_imp_auto_us_df_6         |    1 |
+| system_axi_ic_zynq_ultra_ps_e_0_S_AXI_HP3_FPD_imp_auto_us_df_5         |    1 |
+| system_axi_ic_zynq_ultra_ps_e_0_S_AXI_HP3_FPD_imp_auto_us_df_4         |    1 |
+| system_axi_ic_zynq_ultra_ps_e_0_S_AXI_HP3_FPD_imp_auto_us_df_3         |    1 |
+| system_axi_ic_zynq_ultra_ps_e_0_S_AXI_HP3_FPD_imp_auto_us_df_2         |    1 |
+| system_axi_ic_zynq_ultra_ps_e_0_S_AXI_HP3_FPD_imp_auto_us_df_14        |    1 |
+| system_axi_ic_zynq_ultra_ps_e_0_S_AXI_HP3_FPD_imp_auto_us_df_13        |    1 |
+| system_axi_ic_zynq_ultra_ps_e_0_S_AXI_HP3_FPD_imp_auto_us_df_12        |    1 |
+| system_axi_ic_zynq_ultra_ps_e_0_S_AXI_HP3_FPD_imp_auto_us_df_11        |    1 |
+| system_axi_ic_zynq_ultra_ps_e_0_S_AXI_HP3_FPD_imp_auto_us_df_10        |    1 |
+| system_axi_ic_zynq_ultra_ps_e_0_S_AXI_HP3_FPD_imp_auto_us_df_1         |    1 |
+| system_axi_ic_zynq_ultra_ps_e_0_S_AXI_HP3_FPD_imp_auto_us_df_0         |    1 |
+| system_axi_ic_zynq_ultra_ps_e_0_S_AXI_HP2_FPD_upgraded_ipi_imp_xbar_0  |    1 |
+| system_axi_ic_zynq_ultra_ps_e_0_S_AXI_HP2_FPD_imp_s15_regslice_0       |    1 |
+| system_axi_ic_zynq_ultra_ps_e_0_S_AXI_HP2_FPD_imp_s14_regslice_0       |    1 |
+| system_axi_ic_zynq_ultra_ps_e_0_S_AXI_HP2_FPD_imp_s13_regslice_0       |    1 |
+| system_axi_ic_zynq_ultra_ps_e_0_S_AXI_HP2_FPD_imp_s12_regslice_0       |    1 |
+| system_axi_ic_zynq_ultra_ps_e_0_S_AXI_HP2_FPD_imp_s11_regslice_0       |    1 |
+| system_axi_ic_zynq_ultra_ps_e_0_S_AXI_HP2_FPD_imp_s10_regslice_0       |    1 |
+| system_axi_ic_zynq_ultra_ps_e_0_S_AXI_HP2_FPD_imp_s09_regslice_0       |    1 |
+| system_axi_ic_zynq_ultra_ps_e_0_S_AXI_HP2_FPD_imp_s08_regslice_0       |    1 |
+| system_axi_ic_zynq_ultra_ps_e_0_S_AXI_HP2_FPD_imp_s07_regslice_0       |    1 |
+| system_axi_ic_zynq_ultra_ps_e_0_S_AXI_HP2_FPD_imp_s06_regslice_0       |    1 |
+| system_axi_ic_zynq_ultra_ps_e_0_S_AXI_HP2_FPD_imp_s05_regslice_0       |    1 |
+| system_axi_ic_zynq_ultra_ps_e_0_S_AXI_HP2_FPD_imp_s04_regslice_0       |    1 |
+| system_axi_ic_zynq_ultra_ps_e_0_S_AXI_HP2_FPD_imp_s03_regslice_0       |    1 |
+| system_axi_ic_zynq_ultra_ps_e_0_S_AXI_HP2_FPD_imp_s02_regslice_0       |    1 |
+| system_axi_ic_zynq_ultra_ps_e_0_S_AXI_HP2_FPD_imp_s01_regslice_0       |    1 |
+| system_axi_ic_zynq_ultra_ps_e_0_S_AXI_HP2_FPD_imp_s00_regslice_0       |    1 |
+| system_axi_ic_zynq_ultra_ps_e_0_S_AXI_HP2_FPD_imp_m00_regslice_0       |    1 |
+| system_axi_ic_zynq_ultra_ps_e_0_S_AXI_HP2_FPD_imp_m00_data_fifo_0      |    1 |
+| system_axi_ic_zynq_ultra_ps_e_0_S_AXI_HP2_FPD_imp_auto_us_df_9         |    1 |
+| system_axi_ic_zynq_ultra_ps_e_0_S_AXI_HP2_FPD_imp_auto_us_df_8         |    1 |
+| system_axi_ic_zynq_ultra_ps_e_0_S_AXI_HP2_FPD_imp_auto_us_df_7         |    1 |
+| system_axi_ic_zynq_ultra_ps_e_0_S_AXI_HP2_FPD_imp_auto_us_df_6         |    1 |
+| system_axi_ic_zynq_ultra_ps_e_0_S_AXI_HP2_FPD_imp_auto_us_df_5         |    1 |
+| system_axi_ic_zynq_ultra_ps_e_0_S_AXI_HP2_FPD_imp_auto_us_df_4         |    1 |
+| system_axi_ic_zynq_ultra_ps_e_0_S_AXI_HP2_FPD_imp_auto_us_df_3         |    1 |
+| system_axi_ic_zynq_ultra_ps_e_0_S_AXI_HP2_FPD_imp_auto_us_df_2         |    1 |
+| system_axi_ic_zynq_ultra_ps_e_0_S_AXI_HP2_FPD_imp_auto_us_df_15        |    1 |
+| system_axi_ic_zynq_ultra_ps_e_0_S_AXI_HP2_FPD_imp_auto_us_df_14        |    1 |
+| system_axi_ic_zynq_ultra_ps_e_0_S_AXI_HP2_FPD_imp_auto_us_df_13        |    1 |
+| system_axi_ic_zynq_ultra_ps_e_0_S_AXI_HP2_FPD_imp_auto_us_df_12        |    1 |
+| system_axi_ic_zynq_ultra_ps_e_0_S_AXI_HP2_FPD_imp_auto_us_df_11        |    1 |
+| system_axi_ic_zynq_ultra_ps_e_0_S_AXI_HP2_FPD_imp_auto_us_df_10        |    1 |
+| system_axi_ic_zynq_ultra_ps_e_0_S_AXI_HP2_FPD_imp_auto_us_df_1         |    1 |
+| system_axi_ic_zynq_ultra_ps_e_0_S_AXI_HP2_FPD_imp_auto_us_df_0         |    1 |
+| system_axi_ic_zynq_ultra_ps_e_0_M_AXI_HPM0_FPD_upgraded_ipi_imp_xbar_0 |    1 |
+| system_axi_ic_zynq_ultra_ps_e_0_M_AXI_HPM0_FPD_imp_s00_regslice_0      |    1 |
+| system_axi_ic_zynq_ultra_ps_e_0_M_AXI_HPM0_FPD_imp_s00_data_fifo_0     |    1 |
+| system_axi_ic_zynq_ultra_ps_e_0_M_AXI_HPM0_FPD_imp_m01_regslice_0      |    1 |
+| system_axi_ic_zynq_ultra_ps_e_0_M_AXI_HPM0_FPD_imp_m00_regslice_0      |    1 |
+| system_axi_ic_zynq_ultra_ps_e_0_M_AXI_HPM0_FPD_imp_auto_pc_0           |    1 |
+| system_axi_ic_zynq_ultra_ps_e_0_M_AXI_HPM0_FPD_imp_auto_ds_0           |    1 |
+| system_avg_pool2d_forward_1_0                                          |    1 |
++------------------------------------------------------------------------+------+

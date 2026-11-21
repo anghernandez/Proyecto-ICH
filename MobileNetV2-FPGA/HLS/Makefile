@@ -27,7 +27,7 @@ VPP := v++
 JOBS := 4
 
 VPP_FLAGS := --save-temps --jobs $(JOBS)
-VPP_FLAGS += --profile.exec all:all
+
 
 LINK_CONFIG := hw_link/fpga_kernels-link.cfg
 
@@ -37,7 +37,7 @@ KERNELS := \
 	AvgPool2d:avg_pool2d_forward \
 	Tanh:tanh_forward \
 	Linear:linear_forward \
-	PointWiseConv2d:pointwise_conv2d_forward \
+	PointWiseConv2d_Optimizado:pointwise_conv2d_forward \
 	DepthWiseConv2d:depthwise_conv2d_forward \
 	ReLU6:relu6_forward \
 	LayerAdd:layer_add_forward \
@@ -71,7 +71,12 @@ define KERNEL_RULE
 $(XO_DIR)/$(2).xo: $(1)/hls.cfg $(1)/Makefile $(wildcard $(1)/HW/*.cpp) $(wildcard $(1)/HW/*.hpp)
 	$$(MAKE) -C $(1) package
 	mkdir -p $$(XO_DIR)
-	cp $(1)/build/$(2)/$(2).xo $$@
+
+	@if [ -f "$(1)/build/$(2).xo" ]; then \
+		cp "$(1)/build/$(2).xo" "$$@"; \
+	else \
+		cp "$(1)/build/$(2)/$(2).xo" "$$@"; \
+	fi
 
 endef
 
@@ -122,8 +127,24 @@ clean:
 	rm -rf $(PACKAGE_OUT)
 	rm -f *.log *.jou
 
+
 cleanall: clean
 	@for entry in $(KERNELS); do \
 		dir=$${entry%%:*}; \
 		$(MAKE) -C $$dir clean; \
 	done
+
+
+# Linking utilizando los .xo existentes
+.PHONY: link-prebuilt
+
+link-prebuilt:
+	mkdir -p $(BUILD_DIR)
+	$(VPP) -l \
+		-t $(TARGET) \
+		--platform $(PLATFORM) \
+		--clock.defaultFreqHz $(KERNEL_FREQ) \
+		$(VPP_FLAGS) \
+		--config $(LINK_CONFIG) \
+		-o $(LINK_OUTPUT) \
+		$(XO_FILES)
