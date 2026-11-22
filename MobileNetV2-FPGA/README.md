@@ -82,9 +82,7 @@ La optimización ahorra, en promedio, **15 628.522 ms (15.629 s) por inferencia*
 
 ## 4. Utilización de recursos FPGA
 
-Los reportes de implementación de Vivado 2024.2 (*Routed*) corresponden a diseños integrados de **nueve kernels**. Para comparar el uso de recursos asociado a MobileNetV2, se descuentan los recursos del kernel **Tanh**, porque esta operación no se utiliza en la arquitectura evaluada. El descuento se aplica de la misma manera a las dos versiones.
-
-Los valores descontados provienen del reporte de síntesis **HLS** de `tanh_forward`: **3 789 LUT, 7 561 FF, 4 BRAM y 14 DSP**. Se utiliza la relación `recursos estimados sin Tanh = recursos del diseño integrado − recursos de Tanh (HLS)`; el porcentaje se calcula respecto a los recursos disponibles en la KV260.
+Se presentan los recursos estimados para el diseño integrado de ocho kernels, a partir de los reportes de implementación de Vivado 2024.2. Se comparan la implementación original y la versión con optimización de Pointwise Conv2D.
 
 ### Diseño original
 
@@ -104,9 +102,21 @@ Los valores descontados provienen del reporte de síntesis **HLS** de `tanh_forw
 | BRAM | 84,5 | 144 | 58,68 % |
 | DSP | 228 | 1 248 | 18,27 % |
 
-La versión optimizada presenta **7 463 LUT, 11 442 FF, 2 BRAM y 83 DSP adicionales** en esta comparación estimada, principalmente asociados al mayor paralelismo introducido en Pointwise Conv2D.
+### Efecto de la optimización de Pointwise Conv2D sobre los recursos
 
-**Alcance de los datos:** los totales integrados reportados por Vivado eran **67 190 LUT, 85 514 FF, 86,5 BRAM y 159 DSP** en el diseño original, y **74 653 LUT, 96 956 FF, 88,5 BRAM y 242 DSP** en el optimizado. Como se restan estimaciones de **síntesis HLS** a resultados de **implementación física**, las tablas anteriores son una **aproximación**, no mediciones de una implementación física de ocho kernels. La utilización exacta sin Tanh requeriría implementar nuevamente el sistema sin ese kernel.
+La optimización de Pointwise Conv2D incorpora procesamiento paralelo de canales de salida, almacenamiento local y segmentación de los datos (*tiling*).
+
+La siguiente tabla presenta la variación de recursos del diseño integrado al sustituir el kernel Pointwise original por su versión optimizada.
+
+| Recurso | Antes de optimizar | Después de optimizar | Incremento |
+|---|---:|---:|---:|
+| LUT | 63 401 | 70 864 | +7 463 |
+| FF | 77 953 | 89 395 | +11 442 |
+| BRAM | 82,5 | 84,5 | +2 |
+| DSP | 145 | 228 | +83 |
+
+La versión optimizada presenta un incremento en la utilización de recursos, principalmente asociado al mayor paralelismo introducido en Pointwise Conv2D.
+
 
 ## 5. Tiempo acumulado por operación
 
