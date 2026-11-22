@@ -38,12 +38,12 @@ Desde la raíz del repositorio, con el ambiente de Python configurado y la versi
 ```bash
 PYTHONPATH="$PWD:$PWD/host:$PWD/host/bindings" \
 python performance_benchmarks/performance/benchmark_ich.py \
-  --image test_images/test_1.jpeg \
-  --batch-size 1 \
-  --inflight-batches 1 \
-  --warmup 8 \
-  --repeats 120 \
-  --mode sequential
+   --image test_images/test_1.jpeg \
+   --batch-size 1 \
+   --inflight-batches 1 \
+   --warmup 8 \
+   --repeats 120 \
+   --mode sequential
 ```
 
 El benchmark crea una carpeta independiente por ejecución en:
@@ -79,8 +79,6 @@ Se calcula a partir de las medias de ambas versiones:
 - **Reducción de latencia:** `(1 - 3 113.977 / 18 742.499) × 100 = 83.39 %`.
 
 La optimización ahorra, en promedio, **15 628.522 ms (15.629 s) por inferencia**.
-
-
 
 ## 4. Utilización de recursos FPGA
 
@@ -165,9 +163,9 @@ Promedios de las 120 filas de fase `measured` en los archivos `python_profile.cs
 | **Total perfilado (`total_profile_ms`)** | **18 742.359** | **3 113.845** |
 | Tiempo no desglosado (`unaccounted_ms`) | 0.140 | 0.132 |
 
-El tiempo de ejecución (`execution_ms`) incluye las operaciones lanzadas mediante el runtime FPGA, las esperas y la sobrecarga asociada a XRT, además de cualquier gestión o transferencia interna que se realice durante esa etapa. **No equivale a la latencia interna del IP.**
+El tiempo de ejecución (`execution_ms`) incluye las operaciones lanzadas mediante el runtime FPGA, las esperas y la sobrecarga asociada a XRT, además de cualquier gestión o transferencia interna que se realice durante esa etapa.
 
-Asimismo, `upload_ms` y `download_ms` son etapas registradas por la interfaz a nivel de host; **no deben interpretarse automáticamente como mediciones puras de transferencia física H2D/D2H**.
+Asimismo, `upload_ms` y `download_ms` son etapas registradas por la interfaz a nivel de host.
 
 La latencia de `summary.csv` se obtiene con `time.perf_counter()` alrededor de `graph.run_batches()`. Por ello, puede diferir ligeramente de la suma de etapas perfiladas. La validación numérica posterior a la ejecución queda fuera del intervalo cronometrado.
 
@@ -201,3 +199,107 @@ En una repetición comunicada de la versión **sin optimizar** (repetición 60) 
 En el protocolo de una imagen (`batch=1`, 8 calentamientos, 120 repeticiones), la versión optimizada de MobileNetV2 sobre la Kria KV260 redujo la latencia promedio de **18.742 s a 3.114 s**, equivalente a una **aceleración de 6.02×** y una **reducción de 83.39 %**.
 
 La mayor parte de la mejora registrada corresponde a **Pointwise**. Tras optimizar esta operación, **Depthwise** pasa a concentrar la mayor proporción del tiempo observado, seguida de **Conv2D**. Estos resultados caracterizan el rendimiento de la interfaz y los kernels en las condiciones medidas, sin atribuir los tiempos reportados exclusivamente a la ejecución interna del hardware.
+
+## 10. Reproducción del proyecto
+
+El repositorio **Proyecto-ICH**, en `MobileNetV2-FPGA/`, contiene el código HLS, los Makefiles, la configuración de enlace, una copia del benchmark y los resultados experimentales. La ejecución de la red neuronal desde Python utiliza una **interfaz externa**, disponible en [pytorch-fpga-configurable-interface](https://github.com/anghernandez/pytorch-fpga-configurable-interface). La interfaz se instala y compila por separado en la Kria KV260.
+
+### 10.1. Herramientas y requisitos
+
+- **Compilación del hardware:** AMD Vitis/Vivado 2024.2 y la plataforma `MobileNetV2-FPGA/platform/kv260_custom.xpfm` incluida en el proyecto.
+- **Ejecución (Kria KV260):** XRT y `xmutil` configurados; para las mediciones se utilizó Ubuntu 22.04 y XRT 2.13.0.
+- **Interfaz:** repositorio PyTorch–FPGA con el runtime C++, bindings Pybind11, dependencias de Python y el modelo MobileNetV2. Consultar sus instrucciones de instalación para preparar el entorno de Python.
+- **Imagen de prueba:** `test_images/test_1.jpeg` en el repositorio de la interfaz; pesos `MobileNet_V2_Weights.IMAGENET1K_V1` de `torchvision`.
+
+### 10.2. Compilación y empaquetado del acelerador
+
+En el equipo de desarrollo, desde la raíz de `Proyecto-ICH`:
+
+```bash
+source ~/Xilinx/Vitis/2024.2/settings64.sh
+cd MobileNetV2-FPGA/HLS
+make build
+```
+
+El Makefile general invoca los Makefiles HLS individuales, integra los nueve kernels y genera los archivos para el despliegue en `package.hw/`. El kernel Pointwise seleccionado es `PointWiseConv2d_Optimizado/`. Se incluyen nueve kernels en el diseño, aunque MobileNetV2 no utiliza Tanh.
+
+Los cuatro archivos destinados a la Kria son:
+
+```text
+package.hw/fpga_kernels.bit.bin
+package.hw/fpga_kernels.dtbo
+package.hw/fpga_kernels.xclbin
+package.hw/shell.json
+```
+
+Los archivos `.xo`, los directorios temporales de Vitis/Vivado y los archivos de `package.hw/` se generan localmente y no se incluyen en Git. La compilación desde cero debe realizarse con las herramientas y la plataforma indicadas; los comandos de construcción no constituyen por sí solos una validación de una compilación limpia en otro equipo.
+
+### 10.3. Transferencia desde el equipo de desarrollo
+
+Desde la raíz de `Proyecto-ICH`, en el equipo de desarrollo**:
+
+```bash
+ssh kria 'mkdir -p ~/fpga_accelerators_optimizado'
+scp MobileNetV2-FPGA/HLS/package.hw/{fpga_kernels.bit.bin,fpga_kernels.dtbo,fpga_kernels.xclbin,shell.json} \
+  kria:~/fpga_accelerators_optimizado/
+```
+
+`kria` es el alias SSH usado en el entorno de pruebas. En otro equipo, sustituirlo por el usuario y la dirección IP de la placa.
+
+### 10.4. Instalación y carga del acelerador en la Kria
+
+En la **Kria KV260**:
+
+```bash
+sudo mkdir -p /lib/firmware/xilinx/fpga_accelerators_optimizado
+sudo cp ~/fpga_accelerators_optimizado/{fpga_kernels.bit.bin,fpga_kernels.dtbo,fpga_kernels.xclbin,shell.json} \
+  /lib/firmware/xilinx/fpga_accelerators_optimizado/
+
+# Descargar la aplicación anterior, si hay una cargada:
+sudo xmutil unloadapp
+sudo xmutil loadapp fpga_accelerators_optimizado
+sudo xmutil listapps
+```
+
+Si no hay una aplicación activa, `unloadapp` puede indicar que no hay nada que descargar. `listapps` sirve para comprobar el registro y la carga del diseño. El archivo `shell.json` empleado declara `shell_type: XRT_FLAT` y `num_slots: 1`.
+
+### 10.5. Configuración y recompilación de la interfaz PyTorch–FPGA
+
+La interfaz está en un [repositorio independiente](https://github.com/anghernandez/pytorch-fpga-configurable-interface). Se debe utilizar una versión que contenga el runtime DAG y el benchmark indicados en este documento.
+
+En la **Kria**, dentro de la raíz de la implementación de la interfaz, configurar en `host/runtime/fpga_runtime.cpp`:
+
+```cpp
+const std::string xclbin_path =
+    "/lib/firmware/xilinx/fpga_accelerators_optimizado/fpga_kernels.xclbin";
+```
+
+La ruta debe corresponder a la aplicación cargada con `xmutil`. Con el entorno de Python activado, recompilar los bindings C++:
+
+```bash
+make rebuild
+```
+
+Este comando genera nuevamente el módulo Python `fpga_dag*.so`; **no** recompila los kernels HLS. Para ejecutar la versión original, deben cargarse `fpga_accelerators` y su correspondiente ruta `/lib/firmware/xilinx/fpga_accelerators/fpga_kernels.xclbin`. El código HLS de Pointwise original no forma parte de esta entrega: aquí se conserva la versión optimizada.
+
+### 10.6. Ejecución del benchmark
+
+Desde la raíz del repositorio **de la interfaz**, en la Kria, con el entorno de Python activado y el acelerador correspondiente cargado:
+
+```bash
+PYTHONPATH="$PWD:$PWD/host:$PWD/host/bindings" \
+python performance_benchmarks/performance/benchmark_ich.py \
+  --image test_images/test_1.jpeg \
+  --batch-size 1 \
+  --inflight-batches 1 \
+  --warmup 8 \
+  --repeats 120 \
+  --rest 0 \
+  --mode sequential
+```
+
+Las mediciones corresponden a **una imagen por inferencia**, en modo secuencial, con ocho calentamientos y 120 repeticiones medidas. El script genera una carpeta con marca temporal en `performance_benchmarks/results/mobilenetv2_fpga_paper_b1/`, que incluye `summary.csv`, `timings.csv`, `python_profile.csv`, `operation_summary.csv` y `sequential_profile_rep*.csv`.
+
+La copia `MobileNetV2-FPGA/benchmarks/benchmark_ich.py` coincide exactamente (SHA-256) con la utilizada en la Kria durante la evaluación; se conserva como respaldo en el proyecto ICH. Los CSV de ambas mediciones están disponibles en `MobileNetV2-FPGA/results/baseline/` y `MobileNetV2-FPGA/results/optimized/`.
+
+**Alcance:** el repositorio ICH permite reconstruir el diseño **optimizado** y reproducir su medición usando la interfaz externa. Los resultados del diseño **sin optimizar** se incluyen como referencia experimental, pero su código HLS de Pointwise no se distribuye aquí. Para comparar versiones, debe cargarse en cada ejecución el acelerador y el `.xclbin` correspondiente; no deben mezclarse.
